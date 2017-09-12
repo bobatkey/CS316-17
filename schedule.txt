@@ -1,0 +1,47 @@
+Wk Day Date     Event      Prac  Purpose                                       Who?        Away!
+1  Mon 18 Sep   Lecture          1. programs made of equations; running them   B&F
+                Lab        1     evaluation game                               B&F
+   Thu 21 Sep   Lecture          2. standard types & classes (H3)              B           J
+   Fri 22 Sep   Lecture          3. defining functions (H4)                                F&J
+2  Thu 28 Sep   Deadline   1     4pm
+   Thu 28 Sep   Tutorial   2     FOP unveil
+   Fri 29 Sep   Lecture          4. list comprehensions (H5)
+3  Mon  2 Oct   Lecture          5. recursive functions (H6)
+                Lab        2
+   Thu  5 Oct   Tutorial   2     FOP firefight
+   Fri  6 Oct   Lecture          6. higher-order functions (H7)
+4  Mon  9 Oct   Lecture          7. declaring types and classes (H8)
+                Lab        2
+   Thu 12 Oct   Tutorial   3     HOP unveil
+   Fri 13 Oct   Lecture          8. functors (hints of parametricity)
+5  Mon 16 Oct   Lecture          9. recursion schemes
+                Deadline   2     2pm
+                Lab-Test   2
+   Thu 19 Oct   Tutorial   2     FOP autopsy
+   Fri 20 Oct   Lecture          10. building pure evaluators
+6  Mon 23 Oct   Lecture          11. applicatives and monads (H12)
+                Lab        3
+   Thu 26 Oct   Tutorial   3     HOP firefight
+   Fri 27 Oct   Lecture          12. monads we like
+7  Mon 30 Oct   Lecture          13. monadic parsing (H13)
+                Lab        3
+   Thu  2 Nov   Tutorial   4     GHOUL unveil
+   Fri  3 Nov   Lecture          14. more monadic parsing
+8  Mon  6 Nov   Lecture          15. state and traversable
+                Deadline   3     2pm
+                Lab-Test   3     HOP test
+   Thu  9 Nov   Tutorial   3     HOP autopsy
+   Fri 10 Nov   Lecture          16. visiting and traversing containers
+9  Mon 13 Nov   Lecture          17. programming interaction
+                Lab        4
+   Thu 16 Nov   Tutorial   4     GHOUL firefight
+   Fri 17 Nov   Lecture          18. infinite data and processes (H15)
+10 Mon 20 Nov   Lecture          19. QuickCheck
+                Lab        4
+   Thu 23 Nov   Tutorial   4     GHOUL firefight
+   Fri 24 Nov   Lecture          20. parallelism
+11 Mon 27 Nov   Lecture          21. concurrency
+                Deadline   4     2pm
+                Lab-Test   4     GHOUL test
+   Thu 30 Nov   Tutorial   4     GHOUL autopsy
+   Fri  1 Dec   Lecture          22. a look at Agda (CS410 propaganda)         C
