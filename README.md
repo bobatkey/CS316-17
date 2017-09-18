@@ -14,11 +14,19 @@
 
 ## Helpful Links
 
+### Video Lectures
+
 - Glasgow uni (free!) <abbr title="Massive open online course">MOOC</abbr> on [Functional programming in Haskell](https://www.futurelearn.com/courses/functional-programming-haskell).
 
 - Video lectures by Erik Meijer on [Functional Programming Fundamentals](https://channel9.msdn.com/Series/C9-Lectures-Erik-Meijer-Functional-Programming-Fundamentals).
 
-- material from [CIS 194: Introduction to Haskell](http://www.seas.upenn.edu/~cis194/fall16/) at the University of Pennsylvania.
+- Material from [CIS 194: Introduction to Haskell](http://www.seas.upenn.edu/~cis194/fall16/) at the University of Pennsylvania.
+
+### Books
+
+- [Programming in Haskell](http://www.cs.nott.ac.uk/~pszgmh/pih.html)
+  is the book that we have based the first half of this course on. You
+  do not need to buy the book.
 
 - The [Haskell Wikibook](https://en.wikibooks.org/wiki/Haskell).
 
