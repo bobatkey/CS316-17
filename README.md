@@ -8,6 +8,10 @@
 
 - Your three little words, and scanned one minute papers, can be found [here](https://personal.cis.strath.ac.uk/conor.mcbride/Marx/?page=CS316).
 
+## Exercises
+
+- Ex1 : [https://personal.cis.strath.ac.uk/robert.atkey/terms.html](The evaluation game). Once you have finished, enter your username and you will get a password. Email this to one of us by the deadline.
+
 ## Helpful Links
 
 - Glasgow uni (free!) <abbr title="Massive open online course">MOOC</abbr> on [Functional programming in Haskell](https://www.futurelearn.com/courses/functional-programming-haskell).
