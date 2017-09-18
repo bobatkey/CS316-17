@@ -13,6 +13,12 @@ the lab.
 
 See the [schedule](schedule.txt).
 
+## Contact
+
+**Bob Atkey** LT1305 [robert.atkey@strath.ac.uk](mailto:robert.atkey@strath.ac.uk)
+
+**Fredrik Nordvall Forsberg** LT1310 [fredrik.nordvall-forsberg@strath.ac.uk](mailto:fredrik.nordvall-forsberg@strath.ac.uk)
+
 ## Lectures
 
 Lectures are normally at **11am Mondays** in
@@ -110,8 +116,3 @@ that we have found useful.
   Good!](http://learnyouahaskell.com/). The full text of this book is
   available online for free.
 
-## Contact
-
-**Bob Atkey** LT1305 [robert.atkey@strath.ac.uk](mailto:robert.atkey@strath.ac.uk)
-
-**Fredrik Nordvall Forsberg** LT1310 [fredrik.nordvall-forsberg@strath.ac.uk](mailto:fredrik.nordvall-forsberg@strath.ac.uk)
