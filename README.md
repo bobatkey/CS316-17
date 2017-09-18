@@ -14,7 +14,11 @@
 
 ## Helpful Links
 
-### Video Lectures
+### Other Lecture Courses
+
+These links are to lecture courses by other Universities and
+companies. You might find them useful as alternative presentations of
+the material in our course.
 
 - Glasgow uni (free!) <abbr title="Massive open online course">MOOC</abbr> on [Functional programming in Haskell](https://www.futurelearn.com/courses/functional-programming-haskell).
 
@@ -24,13 +28,20 @@
 
 ### Books
 
+There are now many books written about Haskell. Here are links to some
+that we have found useful.
+
 - [Programming in Haskell](http://www.cs.nott.ac.uk/~pszgmh/pih.html)
   is the book that we have based the first half of this course on. You
   do not need to buy the book.
 
-- The [Haskell Wikibook](https://en.wikibooks.org/wiki/Haskell).
+- The [Haskell Wikibook](https://en.wikibooks.org/wiki/Haskell). This
+  is a free online book that starts very gently, but also includes
+  some very advanced material.
 
-- [Learn You a Haskell for Great Good!](http://learnyouahaskell.com/)
+- [Learn You a Haskell for Great
+  Good!](http://learnyouahaskell.com/). The full text of this book is
+  available online for free.
 
 ## Contact
 
