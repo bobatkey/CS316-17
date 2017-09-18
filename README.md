@@ -1,7 +1,7 @@
 # CS316 "Functional Programming"
 
-Welcome to the course webpage for The University of Strathclyde CS316
-"Functional Programming" course!
+Welcome to the webpage for The University of Strathclyde CS316
+"Functional Programming"!
 
 This course has a [Twitter account](https://twitter.com/StrathCS316).
 
@@ -28,6 +28,8 @@ and **11am Fridays** in
 week one, there is an additional lecture on **Thursday at 4pm** in
 [LT210](http://www.learningservices.strath.ac.uk/avfacilities/roomresults.asp?&menu1=Graham%20Hills&roomField=GH816&findRoom=Show+room+details)
 in place of the tutorial normally in that slot.
+
+See the [schedule](schedule.txt) for more details.
 
 Most of the lectures will involve us doing live coding. We will place
 the code from each lecture in this repository after each lecture,
