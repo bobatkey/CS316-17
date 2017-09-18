@@ -10,7 +10,11 @@
 
 ## Exercises
 
-- Ex1 : [The evaluation game](https://personal.cis.strath.ac.uk/robert.atkey/terms.html). Once you have finished, enter your username and you will get a password. Email this to one of us by the deadline.
+- Ex1 : [The evaluation
+  game](https://personal.cis.strath.ac.uk/robert.atkey/terms.html). Once
+  you have finished, enter your username and you will get a
+  password. Email this to one of us (email addresses below) by the
+  deadline (Thursday 28th September, 4pm).
 
 ## Helpful Links
 
