@@ -1,0 +1,592 @@
+GHCi, version 7.10.3: http://www.haskell.org/ghc/  :? for help
+Prelude> 2+2
+4
+Prelude> 2-2
+0
+Prelude> :info Bool
+data Bool = False | True 	-- Defined in ‘GHC.Types’
+instance Bounded Bool -- Defined in ‘GHC.Enum’
+instance Enum Bool -- Defined in ‘GHC.Enum’
+instance Eq Bool -- Defined in ‘GHC.Classes’
+instance Ord Bool -- Defined in ‘GHC.Classes’
+instance Read Bool -- Defined in ‘GHC.Read’
+instance Show Bool -- Defined in ‘GHC.Show’
+Prelude> False
+False
+Prelude> True
+True
+Prelude> :type False
+False :: Bool
+Prelude> if True then 1 else 2
+1
+Prelude> if True then 1 else False
+
+<interactive>:9:14:
+    No instance for (Num Bool) arising from the literal ‘1’
+    In the expression: 1
+    In the expression: if True then 1 else False
+    In an equation for ‘it’: it = if True then 1 else False
+Prelude> if True then "Hello" else False
+
+<interactive>:10:27:
+    Couldn't match expected type ‘[Char]’ with actual type ‘Bool’
+    In the expression: False
+    In the expression: if True then "Hello" else False
+Prelude> if False then 1 else 2
+2
+Prelude> :info Bool
+data Bool = False | True 	-- Defined in ‘GHC.Types’
+instance Bounded Bool -- Defined in ‘GHC.Enum’
+instance Enum Bool -- Defined in ‘GHC.Enum’
+instance Eq Bool -- Defined in ‘GHC.Classes’
+instance Ord Bool -- Defined in ‘GHC.Classes’
+instance Read Bool -- Defined in ‘GHC.Read’
+instance Show Bool -- Defined in ‘GHC.Show’
+Prelude> :info Integer
+data Integer
+  = integer-gmp-1.0.0.0:GHC.Integer.Type.S# !GHC.Prim.Int#
+  | integer-gmp-1.0.0.0:GHC.Integer.Type.Jp# {-# UNPACK #-}integer-gmp-1.0.0.0:GHC.Integer.Type.BigNat
+  | integer-gmp-1.0.0.0:GHC.Integer.Type.Jn# {-# UNPACK #-}integer-gmp-1.0.0.0:GHC.Integer.Type.BigNat
+  	-- Defined in ‘integer-gmp-1.0.0.0:GHC.Integer.Type’
+instance Enum Integer -- Defined in ‘GHC.Enum’
+instance Eq Integer
+  -- Defined in ‘integer-gmp-1.0.0.0:GHC.Integer.Type’
+instance Integral Integer -- Defined in ‘GHC.Real’
+instance Num Integer -- Defined in ‘GHC.Num’
+instance Ord Integer
+  -- Defined in ‘integer-gmp-1.0.0.0:GHC.Integer.Type’
+instance Read Integer -- Defined in ‘GHC.Read’
+instance Real Integer -- Defined in ‘GHC.Real’
+instance Show Integer -- Defined in ‘GHC.Show’
+Prelude> 
+Prelude> 
+Prelude> :info Integer
+data Integer
+  = integer-gmp-1.0.0.0:GHC.Integer.Type.S# !GHC.Prim.Int#
+  | integer-gmp-1.0.0.0:GHC.Integer.Type.Jp# {-# UNPACK #-}integer-gmp-1.0.0.0:GHC.Integer.Type.BigNat
+  | integer-gmp-1.0.0.0:GHC.Integer.Type.Jn# {-# UNPACK #-}integer-gmp-1.0.0.0:GHC.Integer.Type.BigNat
+  	-- Defined in ‘integer-gmp-1.0.0.0:GHC.Integer.Type’
+instance Enum Integer -- Defined in ‘GHC.Enum’
+instance Eq Integer
+  -- Defined in ‘integer-gmp-1.0.0.0:GHC.Integer.Type’
+instance Integral Integer -- Defined in ‘GHC.Real’
+instance Num Integer -- Defined in ‘GHC.Num’
+instance Ord Integer
+  -- Defined in ‘integer-gmp-1.0.0.0:GHC.Integer.Type’
+instance Read Integer -- Defined in ‘GHC.Read’
+instance Real Integer -- Defined in ‘GHC.Real’
+instance Show Integer -- Defined in ‘GHC.Show’
+Prelude> 7
+7
+Prelude> :info Int
+data Int = GHC.Types.I# GHC.Prim.Int# 	-- Defined in ‘GHC.Types’
+instance Bounded Int -- Defined in ‘GHC.Enum’
+instance Enum Int -- Defined in ‘GHC.Enum’
+instance Eq Int -- Defined in ‘GHC.Classes’
+instance Integral Int -- Defined in ‘GHC.Real’
+instance Num Int -- Defined in ‘GHC.Num’
+instance Ord Int -- Defined in ‘GHC.Classes’
+instance Read Int -- Defined in ‘GHC.Read’
+instance Real Int -- Defined in ‘GHC.Real’
+instance Show Int -- Defined in ‘GHC.Show’
+Prelude> 9999999999999999999999999999999999999999999999999999999999999999 :: Integer
+9999999999999999999999999999999999999999999999999999999999999999
+Prelude> 9999999999999999999999999999999999999999999999999999999999999999 :: Int
+
+<interactive>:18:1: Warning:
+    Literal 9999999999999999999999999999999999999999999999999999999999999999 is out of the Int range -9223372036854775808..9223372036854775807
+-1
+Prelude> 2 * 10
+20
+Prelude> 2 ^ 10
+1024
+Prelude> 2 / 10
+0.2
+Prelude> (2 / 10) :: Integer
+
+<interactive>:22:4:
+    No instance for (Fractional Integer) arising from a use of ‘/’
+    In the expression: (2 / 10) :: Integer
+    In an equation for ‘it’: it = (2 / 10) :: Integer
+Prelude> div 2 10
+0
+Prelude> mod 2 10
+2
+Prelude> 2 `mod` 10
+2
+Prelude> 2 * 4
+8
+Prelude> (*) 2 4
+8
+Prelude> :info []
+Prelude> :info []
+data [] a = [] | a : [a] 	-- Defined in ‘GHC.Types’
+instance Eq a => Eq [a] -- Defined in ‘GHC.Classes’
+instance Monad [] -- Defined in ‘GHC.Base’
+instance Functor [] -- Defined in ‘GHC.Base’
+instance Ord a => Ord [a] -- Defined in ‘GHC.Classes’
+instance Read a => Read [a] -- Defined in ‘GHC.Read’
+instance Show a => Show [a] -- Defined in ‘GHC.Show’
+instance Applicative [] -- Defined in ‘GHC.Base’
+instance Foldable [] -- Defined in ‘Data.Foldable’
+instance Traversable [] -- Defined in ‘Data.Traversable’
+instance Monoid [a] -- Defined in ‘GHC.Base’
+Prelude> 1 : 2 : 3 : [] :: [Integer]
+[1,2,3]
+Prelude> [1,2,3]
+[1,2,3]
+Prelude> let hd (x:xs) = x
+Prelude> hd [1,2,3[
+
+<interactive>:32:11:
+    parse error (possibly incorrect indentation or mismatched brackets)
+Prelude> hd [1,2,3]
+1
+Prelude> hd [4,5,6]
+4
+Prelude> hd []
+*** Exception: <interactive>:31:5-17: Non-exhaustive patterns in function hd
+
+Prelude> let hd (x:xs) = x; hd [] = []
+Prelude> :type hd
+hd :: [[t]] -> [t]
+Prelude> hd [1,2,3]
+
+<interactive>:38:1:
+    Non type-variable argument in the constraint: Num [t]
+    (Use FlexibleContexts to permit this)
+    When checking that ‘it’ has the inferred type
+      it :: forall t. Num [t] => [t]
+Prelude> :info Char
+Prelude> :info Char
+data Char = GHC.Types.C# GHC.Prim.Char# 	-- Defined in ‘GHC.Types’
+instance Bounded Char -- Defined in ‘GHC.Enum’
+instance Enum Char -- Defined in ‘GHC.Enum’
+instance Eq Char -- Defined in ‘GHC.Classes’
+instance Ord Char -- Defined in ‘GHC.Classes’
+instance Read Char -- Defined in ‘GHC.Read’
+instance Show Char -- Defined in ‘GHC.Show’
+Prelude> 'u'
+'u'
+Prelude> :type 'u'
+'u' :: Char
+Prelude> '\128515'
+'\128515'
+Prelude> putStrLn "\128515"
+😃
+Prelude> :info String
+type String = [Char] 	-- Defined in ‘GHC.Base’
+Prelude> hd "abc"
+
+<interactive>:45:4:
+    Couldn't match type ‘Char’ with ‘[t]’
+    Expected type: [[t]]
+      Actual type: [Char]
+    Relevant bindings include it :: [t] (bound at <interactive>:45:1)
+    In the first argument of ‘hd’, namely ‘"abc"’
+    In the expression: hd "abc"
+    In an equation for ‘it’: it = hd "abc"
+Prelude> let hd (x:xs) = x
+Prelude> hd "abc"
+'a'
+Prelude> :info (->)
+data (->) a b 	-- Defined in ‘GHC.Prim’
+instance Monad ((->) r) -- Defined in ‘GHC.Base’
+instance Functor ((->) r) -- Defined in ‘GHC.Base’
+instance Applicative ((->) a) -- Defined in ‘GHC.Base’
+instance Monoid b => Monoid (a -> b) -- Defined in ‘GHC.Base’
+Prelude> :type hd
+hd :: [t] -> t
+Prelude> let f x = 2*x
+Prelude> :t f
+f :: Num a => a -> a
+Prelude> :t (\x -> x)
+(\x -> x) :: r -> r
+Prelude> :info Num
+class Num a where
+  (+) :: a -> a -> a
+  (-) :: a -> a -> a
+  (*) :: a -> a -> a
+  negate :: a -> a
+  abs :: a -> a
+  signum :: a -> a
+  fromInteger :: Integer -> a
+  	-- Defined in ‘GHC.Num’
+instance Num Word -- Defined in ‘GHC.Num’
+instance Num Integer -- Defined in ‘GHC.Num’
+instance Num Int -- Defined in ‘GHC.Num’
+instance Num Float -- Defined in ‘GHC.Float’
+instance Num Double -- Defined in ‘GHC.Float’
+Prelude> let f x = negate x
+Prelude> :type f
+f :: Num a => a -> a
+Prelude> (1200000000000000000000000000000000000000000000000 :: Integer) + 12
+1200000000000000000000000000000000000000000000012
+Prelude> 12.084376843658743 + 0.438763846
+12.523140689658744
+Prelude> :info Double
+data Double = GHC.Types.D# GHC.Prim.Double#
+  	-- Defined in ‘GHC.Types’
+instance Enum Double -- Defined in ‘GHC.Float’
+instance Eq Double -- Defined in ‘GHC.Classes’
+instance Floating Double -- Defined in ‘GHC.Float’
+instance Fractional Double -- Defined in ‘GHC.Float’
+instance Num Double -- Defined in ‘GHC.Float’
+instance Ord Double -- Defined in ‘GHC.Classes’
+instance Read Double -- Defined in ‘GHC.Read’
+instance Real Double -- Defined in ‘GHC.Float’
+instance RealFloat Double -- Defined in ‘GHC.Float’
+instance RealFrac Double -- Defined in ‘GHC.Float’
+instance Show Double -- Defined in ‘GHC.Float’
+Prelude> :info Eq
+class Eq a where
+  (==) :: a -> a -> Bool
+  (/=) :: a -> a -> Bool
+  	-- Defined in ‘GHC.Classes’
+instance (Eq a, Eq b) => Eq (Either a b)
+  -- Defined in ‘Data.Either’
+instance Eq a => Eq [a] -- Defined in ‘GHC.Classes’
+instance Eq Word -- Defined in ‘GHC.Classes’
+instance Eq Ordering -- Defined in ‘GHC.Classes’
+instance Eq Int -- Defined in ‘GHC.Classes’
+instance Eq Float -- Defined in ‘GHC.Classes’
+instance Eq Double -- Defined in ‘GHC.Classes’
+instance Eq Char -- Defined in ‘GHC.Classes’
+instance Eq Bool -- Defined in ‘GHC.Classes’
+instance (Eq a, Eq b, Eq c, Eq d, Eq e, Eq f, Eq g, Eq h, Eq i,
+          Eq j, Eq k, Eq l, Eq m, Eq n, Eq o) =>
+         Eq (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o)
+  -- Defined in ‘GHC.Classes’
+instance (Eq a, Eq b, Eq c, Eq d, Eq e, Eq f, Eq g, Eq h, Eq i,
+          Eq j, Eq k, Eq l, Eq m, Eq n) =>
+         Eq (a, b, c, d, e, f, g, h, i, j, k, l, m, n)
+  -- Defined in ‘GHC.Classes’
+instance (Eq a, Eq b, Eq c, Eq d, Eq e, Eq f, Eq g, Eq h, Eq i,
+          Eq j, Eq k, Eq l, Eq m) =>
+         Eq (a, b, c, d, e, f, g, h, i, j, k, l, m)
+  -- Defined in ‘GHC.Classes’
+instance (Eq a, Eq b, Eq c, Eq d, Eq e, Eq f, Eq g, Eq h, Eq i,
+          Eq j, Eq k, Eq l) =>
+         Eq (a, b, c, d, e, f, g, h, i, j, k, l)
+  -- Defined in ‘GHC.Classes’
+instance (Eq a, Eq b, Eq c, Eq d, Eq e, Eq f, Eq g, Eq h, Eq i,
+          Eq j, Eq k) =>
+         Eq (a, b, c, d, e, f, g, h, i, j, k)
+  -- Defined in ‘GHC.Classes’
+instance (Eq a, Eq b, Eq c, Eq d, Eq e, Eq f, Eq g, Eq h, Eq i,
+          Eq j) =>
+         Eq (a, b, c, d, e, f, g, h, i, j)
+  -- Defined in ‘GHC.Classes’
+instance (Eq a, Eq b, Eq c, Eq d, Eq e, Eq f, Eq g, Eq h, Eq i) =>
+         Eq (a, b, c, d, e, f, g, h, i)
+  -- Defined in ‘GHC.Classes’
+instance (Eq a, Eq b, Eq c, Eq d, Eq e, Eq f, Eq g, Eq h) =>
+         Eq (a, b, c, d, e, f, g, h)
+  -- Defined in ‘GHC.Classes’
+instance (Eq a, Eq b, Eq c, Eq d, Eq e, Eq f, Eq g) =>
+         Eq (a, b, c, d, e, f, g)
+  -- Defined in ‘GHC.Classes’
+instance (Eq a, Eq b, Eq c, Eq d, Eq e, Eq f) =>
+         Eq (a, b, c, d, e, f)
+  -- Defined in ‘GHC.Classes’
+instance (Eq a, Eq b, Eq c, Eq d, Eq e) => Eq (a, b, c, d, e)
+  -- Defined in ‘GHC.Classes’
+instance (Eq a, Eq b, Eq c, Eq d) => Eq (a, b, c, d)
+  -- Defined in ‘GHC.Classes’
+instance (Eq a, Eq b, Eq c) => Eq (a, b, c)
+  -- Defined in ‘GHC.Classes’
+instance (Eq a, Eq b) => Eq (a, b) -- Defined in ‘GHC.Classes’
+instance Eq () -- Defined in ‘GHC.Classes’
+instance Eq Integer
+  -- Defined in ‘integer-gmp-1.0.0.0:GHC.Integer.Type’
+instance Eq a => Eq (Maybe a) -- Defined in ‘GHC.Base’
+Prelude> let beginsWith a (b:bs) = a == b; beginsWith a [] = False
+Prelude> beginsWith 5 [1,2,3,4]
+False
+Prelude> beginsWith 5 [5,1,2,3,4]
+True
+Prelude> beginsWith 'a' "hello"
+False
+Prelude> beginsWith 'a' "ahello"
+True
+Prelude> beginsWith not [(\x -> x), not]
+
+<interactive>:65:1:
+    No instance for (Eq (Bool -> Bool))
+      (maybe you haven't applied enough arguments to a function?)
+      arising from a use of ‘beginsWith’
+    In the expression: beginsWith not [(\ x -> x), not]
+    In an equation for ‘it’: it = beginsWith not [(\ x -> x), not]
+Prelude> :type beginsWith
+beginsWith :: Eq a => a -> [a] -> Bool
+Prelude> :info 
+Prelude> :info Ord
+class Eq a => Ord a where
+  compare :: a -> a -> Ordering
+  (<) :: a -> a -> Bool
+  (<=) :: a -> a -> Bool
+  (>) :: a -> a -> Bool
+  (>=) :: a -> a -> Bool
+  max :: a -> a -> a
+  min :: a -> a -> a
+  	-- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b) => Ord (Either a b)
+  -- Defined in ‘Data.Either’
+instance Ord a => Ord [a] -- Defined in ‘GHC.Classes’
+instance Ord Word -- Defined in ‘GHC.Classes’
+instance Ord Ordering -- Defined in ‘GHC.Classes’
+instance Ord Int -- Defined in ‘GHC.Classes’
+instance Ord Float -- Defined in ‘GHC.Classes’
+instance Ord Double -- Defined in ‘GHC.Classes’
+instance Ord Char -- Defined in ‘GHC.Classes’
+instance Ord Bool -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i, Ord j, Ord k, Ord l, Ord m, Ord n, Ord o) =>
+         Ord (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i, Ord j, Ord k, Ord l, Ord m, Ord n) =>
+         Ord (a, b, c, d, e, f, g, h, i, j, k, l, m, n)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i, Ord j, Ord k, Ord l, Ord m) =>
+         Ord (a, b, c, d, e, f, g, h, i, j, k, l, m)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i, Ord j, Ord k, Ord l) =>
+         Ord (a, b, c, d, e, f, g, h, i, j, k, l)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i, Ord j, Ord k) =>
+         Ord (a, b, c, d, e, f, g, h, i, j, k)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i, Ord j) =>
+         Ord (a, b, c, d, e, f, g, h, i, j)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i) =>
+         Ord (a, b, c, d, e, f, g, h, i)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g,
+          Ord h) =>
+         Ord (a, b, c, d, e, f, g, h)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g) =>
+         Ord (a, b, c, d, e, f, g)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f) =>
+         Ord (a, b, c, d, e, f)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e) => Ord (a, b, c, d, e)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d) => Ord (a, b, c, d)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c) => Ord (a, b, c)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b) => Ord (a, b) -- Defined in ‘GHC.Classes’
+instance Ord () -- Defined in ‘GHC.Classes’
+instance Ord Integer
+  -- Defined in ‘integer-gmp-1.0.0.0:GHC.Integer.Type’
+instance Ord a => Ord (Maybe a) -- Defined in ‘GHC.Base’
+Prelude> :info Ordering
+data Ordering = LT | EQ | GT 	-- Defined in ‘GHC.Types’
+instance Bounded Ordering -- Defined in ‘GHC.Enum’
+instance Enum Ordering -- Defined in ‘GHC.Enum’
+instance Eq Ordering -- Defined in ‘GHC.Classes’
+instance Ord Ordering -- Defined in ‘GHC.Classes’
+instance Read Ordering -- Defined in ‘GHC.Read’
+instance Show Ordering -- Defined in ‘GHC.Show’
+instance Monoid Ordering -- Defined in ‘GHC.Base’
+Prelude> 
+Prelude> :info Ord
+class Eq a => Ord a where
+  compare :: a -> a -> Ordering
+  (<) :: a -> a -> Bool
+  (<=) :: a -> a -> Bool
+  (>) :: a -> a -> Bool
+  (>=) :: a -> a -> Bool
+  max :: a -> a -> a
+  min :: a -> a -> a
+  	-- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b) => Ord (Either a b)
+  -- Defined in ‘Data.Either’
+instance Ord a => Ord [a] -- Defined in ‘GHC.Classes’
+instance Ord Word -- Defined in ‘GHC.Classes’
+instance Ord Ordering -- Defined in ‘GHC.Classes’
+instance Ord Int -- Defined in ‘GHC.Classes’
+instance Ord Float -- Defined in ‘GHC.Classes’
+instance Ord Double -- Defined in ‘GHC.Classes’
+instance Ord Char -- Defined in ‘GHC.Classes’
+instance Ord Bool -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i, Ord j, Ord k, Ord l, Ord m, Ord n, Ord o) =>
+         Ord (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i, Ord j, Ord k, Ord l, Ord m, Ord n) =>
+         Ord (a, b, c, d, e, f, g, h, i, j, k, l, m, n)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i, Ord j, Ord k, Ord l, Ord m) =>
+         Ord (a, b, c, d, e, f, g, h, i, j, k, l, m)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i, Ord j, Ord k, Ord l) =>
+         Ord (a, b, c, d, e, f, g, h, i, j, k, l)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i, Ord j, Ord k) =>
+         Ord (a, b, c, d, e, f, g, h, i, j, k)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i, Ord j) =>
+         Ord (a, b, c, d, e, f, g, h, i, j)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i) =>
+         Ord (a, b, c, d, e, f, g, h, i)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g,
+          Ord h) =>
+         Ord (a, b, c, d, e, f, g, h)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g) =>
+         Ord (a, b, c, d, e, f, g)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f) =>
+         Ord (a, b, c, d, e, f)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e) => Ord (a, b, c, d, e)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d) => Ord (a, b, c, d)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c) => Ord (a, b, c)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b) => Ord (a, b) -- Defined in ‘GHC.Classes’
+instance Ord () -- Defined in ‘GHC.Classes’
+instance Ord Integer
+  -- Defined in ‘integer-gmp-1.0.0.0:GHC.Integer.Type’
+instance Ord a => Ord (Maybe a) -- Defined in ‘GHC.Base’
+Prelude> 3 < 7
+True
+Prelude> (\ x -> x) < not
+
+<interactive>:71:12:
+    No instance for (Ord (Bool -> Bool))
+      (maybe you haven't applied enough arguments to a function?)
+      arising from a use of ‘<’
+    In the expression: (\ x -> x) < not
+    In an equation for ‘it’: it = (\ x -> x) < not
+Prelude> :info Ord
+class Eq a => Ord a where
+  compare :: a -> a -> Ordering
+  (<) :: a -> a -> Bool
+  (<=) :: a -> a -> Bool
+  (>) :: a -> a -> Bool
+  (>=) :: a -> a -> Bool
+  max :: a -> a -> a
+  min :: a -> a -> a
+  	-- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b) => Ord (Either a b)
+  -- Defined in ‘Data.Either’
+instance Ord a => Ord [a] -- Defined in ‘GHC.Classes’
+instance Ord Word -- Defined in ‘GHC.Classes’
+instance Ord Ordering -- Defined in ‘GHC.Classes’
+instance Ord Int -- Defined in ‘GHC.Classes’
+instance Ord Float -- Defined in ‘GHC.Classes’
+instance Ord Double -- Defined in ‘GHC.Classes’
+instance Ord Char -- Defined in ‘GHC.Classes’
+instance Ord Bool -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i, Ord j, Ord k, Ord l, Ord m, Ord n, Ord o) =>
+         Ord (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i, Ord j, Ord k, Ord l, Ord m, Ord n) =>
+         Ord (a, b, c, d, e, f, g, h, i, j, k, l, m, n)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i, Ord j, Ord k, Ord l, Ord m) =>
+         Ord (a, b, c, d, e, f, g, h, i, j, k, l, m)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i, Ord j, Ord k, Ord l) =>
+         Ord (a, b, c, d, e, f, g, h, i, j, k, l)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i, Ord j, Ord k) =>
+         Ord (a, b, c, d, e, f, g, h, i, j, k)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i, Ord j) =>
+         Ord (a, b, c, d, e, f, g, h, i, j)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g, Ord h,
+          Ord i) =>
+         Ord (a, b, c, d, e, f, g, h, i)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g,
+          Ord h) =>
+         Ord (a, b, c, d, e, f, g, h)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f, Ord g) =>
+         Ord (a, b, c, d, e, f, g)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e, Ord f) =>
+         Ord (a, b, c, d, e, f)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d, Ord e) => Ord (a, b, c, d, e)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c, Ord d) => Ord (a, b, c, d)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b, Ord c) => Ord (a, b, c)
+  -- Defined in ‘GHC.Classes’
+instance (Ord a, Ord b) => Ord (a, b) -- Defined in ‘GHC.Classes’
+instance Ord () -- Defined in ‘GHC.Classes’
+instance Ord Integer
+  -- Defined in ‘integer-gmp-1.0.0.0:GHC.Integer.Type’
+instance Ord a => Ord (Maybe a) -- Defined in ‘GHC.Base’
+Prelude> :info Bool
+data Bool = False | True 	-- Defined in ‘GHC.Types’
+instance Bounded Bool -- Defined in ‘GHC.Enum’
+instance Enum Bool -- Defined in ‘GHC.Enum’
+instance Eq Bool -- Defined in ‘GHC.Classes’
+instance Ord Bool -- Defined in ‘GHC.Classes’
+instance Read Bool -- Defined in ‘GHC.Read’
+instance Show Bool -- Defined in ‘GHC.Show’
+Prelude> True < False
+False
+Prelude> data MyType = MkMyType
+Prelude> MkMyType < MkMyType
+
+<interactive>:76:10:
+    No instance for (Ord MyType) arising from a use of ‘<’
+    In the expression: MkMyType < MkMyType
+    In an equation for ‘it’: it = MkMyType < MkMyType
+Prelude> MkMyType == MkMyType
+
+<interactive>:77:10:
+    No instance for (Eq MyType) arising from a use of ‘==’
+    In the expression: MkMyType == MkMyType
+    In an equation for ‘it’: it = MkMyType == MkMyType
+Prelude> instance Eq MyType where x == y = True
+Prelude> MkMyType == MkMyType
+True
+Prelude> \x -> x
+
+<interactive>:80:1:
+    No instance for (Show (t0 -> t0))
+      (maybe you haven't applied enough arguments to a function?)
+      arising from a use of ‘print’
+    In a stmt of an interactive GHCi command: print it
+Prelude> :info Bool
+data Bool = False | True 	-- Defined in ‘GHC.Types’
+instance Bounded Bool -- Defined in ‘GHC.Enum’
+instance Enum Bool -- Defined in ‘GHC.Enum’
+instance Eq Bool -- Defined in ‘GHC.Classes’
+instance Ord Bool -- Defined in ‘GHC.Classes’
+instance Read Bool -- Defined in ‘GHC.Read’
+instance Show Bool -- Defined in ‘GHC.Show’
+Prelude> 
+Leaving GHCi.
