@@ -93,8 +93,8 @@ append = undefined
 rev :: [x] -> [x]
 rev = undefined
 
--- sawPrefix [1,2,3] [1,2,3,4,5,6] = Just [4,5,6]
--- sawPrefix [1,2,3] [1,2
+-- sawPrefix [1,2,3] [1,2,3,4,5,6] = [4,5,6]
+-- sawPrefix [1,2,3] [1,2]         = ?
 
 sawPrefixOff :: Eq a => [a] -> [a] -> [a]
 sawPrefixOff = undefined
