@@ -59,15 +59,12 @@ not1 = undefined
 --   e.g., not not again? (underscore patterns)
 
 not2 :: Bool -> Bool
-not2 True = False
-not2 _ = True
+not2 = undefined
 
---   e.g., maybeApply, maybe?  (:info Maybe, then use shplit,
---     with underscore expressions)
+--   e.g., maybeApply, maybe?  (:info Maybe)
 
 maybeApply :: Maybe (a -> b) -> Maybe a -> Maybe b
-maybeApply (Just f) (Just a) = Just (f a)
-maybeApply _        _        = Nothing
+maybeApply = undefined
 
 {- Fred: -}
 
