@@ -21,11 +21,11 @@ See the [schedule](schedule.txt).
 
 ## Lectures
 
-Lectures are normally at **11am Mondays** in
+Lectures are at **11am Mondays** in
 [GH816](http://www.learningservices.strath.ac.uk/avfacilities/roomresults.asp?&menu1=Graham%20Hills&roomField=GH816&findRoom=Show+room+details)
 and **11am Fridays** in
 [LT210](http://www.learningservices.strath.ac.uk/avfacilities/roomresults.asp?&menu1=Graham%20Hills&roomField=GH816&findRoom=Show+room+details). In
-week one, there is an additional lecture on **Thursday at 4pm** in
+week one, there was an additional lecture on **Thursday at 4pm** in
 [LT210](http://www.learningservices.strath.ac.uk/avfacilities/roomresults.asp?&menu1=Graham%20Hills&roomField=GH816&findRoom=Show+room+details)
 in place of the tutorial normally in that slot.
 
@@ -35,9 +35,12 @@ Most of the lectures will involve us doing live coding. We will place
 the code from each lecture in this repository after each lecture,
 interspersed with commentary covering what we talked about.
 
-- [Lecture 1](lectures/Lec01.hs) : Programs made of equations; running them
-- Lecture 2: Standard types and classes.
-
+- [Lecture 1](lectures/Lec01.hs) (with notes) : Data and Pattern Matching
+- [Lecture 2](lectures/Lec02.md) (notes in progress) : Standard types and classes. [The GHCi trace of the lecture](lectures/Lec02-trace.txt).
+- [Lecture 3](lectures/Lec03.hs) (notes in progress) : Defining functions 
+- Lecture 4 : List comprehensions
+- Lecture 5 : Recursive functions
+- Lecture 6 : Higher-order functions
 
 ### Tutorials
 
