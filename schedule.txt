@@ -4,7 +4,7 @@ Wk Day Date     Event      Prac  Purpose                                       W
    Thu 21 Sep   Lecture          2. standard types & classes (H3)              B&F         J
    Fri 22 Sep   Lecture          3. defining functions (H4)                    B&F         F&J
 2  Thu 28 Sep   Deadline   1     4pm
-   Thu 28 Sep   Tutorial   2     T1. FOP unveil
+   Thu 28 Sep   Tutorial   2     T1. FOP unveil                                B
    Fri 29 Sep   Lecture          4. list comprehensions (H5)
 3  Mon  2 Oct   Lecture          5. recursive functions (H6)
                 Lab        2

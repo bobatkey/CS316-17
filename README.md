@@ -73,7 +73,7 @@ split between the four exercises is shown below:
   password. Email this to one of us (email addresses below) by the
   deadline (Thursday 28th September, 4pm).
 
-- Exercise 2 (30%) : First-order Programming (FOP). This will be
+- Exercise 2 (30%) : [First-order Programming (FOP)](exercises/Ex2.hs). This will be
   released on Thursday 28th September (week 2), and the final deadline
   and test are on Monday 16th October (week 5).
 
