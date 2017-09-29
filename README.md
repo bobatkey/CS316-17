@@ -38,7 +38,7 @@ interspersed with commentary covering what we talked about.
 - [Lecture 1](lectures/Lec01.hs) (with notes) : Data and Pattern Matching
 - [Lecture 2](lectures/Lec02.md) (notes in progress) : Standard types and classes. [The GHCi trace of the lecture](lectures/Lec02-trace.txt).
 - [Lecture 3](lectures/Lec03.hs) (notes in progress) : Defining functions
-- [Lecture 4](lectures/Lec04.hs) (notes in progress) : List comprehensions
+- [Lecture 4](lectures/Lec04.hs) (with notes) : List comprehensions
 - Lecture 5 : Recursive functions
 - Lecture 6 : Higher-order functions
 - Lecture 7 : Declaring types and classes
