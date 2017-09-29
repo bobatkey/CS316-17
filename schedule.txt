@@ -5,15 +5,15 @@ Wk Day Date     Event      Prac  Purpose                                       W
    Fri 22 Sep   Lecture          3. defining functions (H4)                    B&F         F&J
 2  Thu 28 Sep   Deadline   1     4pm
    Thu 28 Sep   Tutorial   2     T1. FOP unveil                                B
-   Fri 29 Sep   Lecture          4. list comprehensions (H5)
-3  Mon  2 Oct   Lecture          5. recursive functions (H6)
+   Fri 29 Sep   Lecture          4. list comprehensions (H5)                   F&B
+3  Mon  2 Oct   Lecture          5. recursive functions (H6)                   B&F
                 Lab        2
    Thu  5 Oct   Tutorial   2     T2. FOP firefight
    Fri  6 Oct   Lecture          6. higher-order functions (H7)
-4  Mon  9 Oct   Lecture          7. declaring types and classes (H8)
+4  Mon  9 Oct   Lecture          7. declaring types and classes (H8)                       F
                 Lab        2
-   Thu 12 Oct   Tutorial   3     T3. HOP unveil
-   Fri 13 Oct   Lecture          8. QuickCheck
+   Thu 12 Oct   Tutorial   3     T3. HOP unveil                                            F
+   Fri 13 Oct   Lecture          8. QuickCheck                                             F
 5  Mon 16 Oct   Lecture          9. functors (hints of parametricity)
                 Deadline   2     2pm
                 Lab-Test   2
@@ -36,12 +36,12 @@ Wk Day Date     Event      Prac  Purpose                                       W
                 Lab        4
    Thu 16 Nov   Tutorial   4     T8. GHOUL firefight
    Fri 17 Nov   Lecture          18. programming interaction
-10 Mon 20 Nov   Lecture          19. infinite data and processes (H15)
+10 Mon 20 Nov   Lecture          19. infinite data and processes (H15)                     F
                 Lab        4
-   Thu 23 Nov   Tutorial   4     T9. GHOUL firefight
-   Fri 24 Nov   Lecture          20. parallelism
-11 Mon 27 Nov   Lecture          21. concurrency
+   Thu 23 Nov   Tutorial   4     T9. GHOUL firefight                                       F
+   Fri 24 Nov   Lecture          20. parallelism                                           F
+11 Mon 27 Nov   Lecture          21. concurrency                                           F
                 Deadline   4     2pm
-                Lab-Test   4     GHOUL test
+                Lab-Test   4     GHOUL test                                                F
    Thu 30 Nov   Tutorial   4     T10. GHOUL autopsy
    Fri  1 Dec   Lecture          22. a look at Agda (CS410 propaganda)         C
