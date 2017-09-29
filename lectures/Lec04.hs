@@ -14,7 +14,18 @@ import Data.List (nub)
 
 {- Different ways to construct sets/lists:
 
+      [2,4,6,8]
 
+
+      {2,4,6,8}
+
+      {2,4,..,120}
+
+      [2,3..120]
+
+      { x*2 | x \in {0,1,2,3,4} }
+
+      [ x * 2 | x <- [0,1,2,3,4] ]
 
 -}
 
@@ -30,21 +41,9 @@ import Data.List (nub)
 
 
 
+
 squares :: [Int]
-squares = undefined
-
-
-
-
-
-
-
-
-
-
-
-
-
+squares = [ x ^ 2 | x <- [0..10] ]
 
 
 
@@ -53,71 +52,27 @@ squares = undefined
 -- There can be more than one generator:
 
 allpairs :: [(Int,Int)]
-allpairs = undefined
+allpairs = [ (x, y) | y <- [4..6], x <- [0..5] ]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--- Later generators can depend on the values of
--- earlier ones:
+-- Later generators can depend on the
+-- values of earlier ones:
 
 ordpairs :: [(Int,Int)]
-ordpairs = undefined
-
-
-
-
-
-
-
-
-
-
-
-
+ordpairs = [ (x, y) | x <- [1..3], y <- [x..5] ]
 
 -- this gives a neat way to write concat:
 
 concat :: [[a]] -> [a]
-concat xss = undefined
-
-
-
-
-
-
-
-
-
-
-
+concat xss = [ x | xs <- xss, x <- xs]
 
 -- Like on the LHS of equations, if a variable is
 -- not used, it can be ignored with an
 -- underscore:
 
 firsts :: [(a,b)] -> [a]
-firsts ps = undefined
+firsts ps = [ x | (x , _) <- ps ]
 
-
+firsts' ps = [ fst xy | xy <- ps ]
 
 
 
@@ -128,36 +83,38 @@ firsts ps = undefined
 -- Guards, guards!
 
 factors :: Int -> [Int]
-factors n = undefined
+factors n = [ x | x <- [1..n]
+                , n `mod` x == 0 ]
 
 prime :: Int -> Bool
-prime n = undefined
+prime 1 = True
+prime n = factors n == [1,n]
 
 primes :: [Int]
-primes = undefined
+primes = [ x | x <- [1..], prime x ]
 
-
-
-
-
-
-
-
-
-
+numberedPrimes :: [(Int,Int)]
+numberedPrimes = [ (i, p) | p <- primes
+                          , i <- [1..] ]
 
 
 -- Zipping two lists together
 -- (redefined here using the ParallelListComp
 --  LANGUAGE extension):
 
-zip :: [a] -> [b] -> [(a,b)]
-zip xs ys = undefined
-
 -- (there is also a down-to-earth
 -- pattern-matching definition)
 
+zip :: [a] -> [b] -> [(a,b)]
+zip []     _      = []
+zip _      []     = []
+zip (x:xs) (y:ys) = (x,y):(zip xs ys)
 
+zip' :: [a] -> [b] -> [(a,b)]
+zip' xs ys = [ (x, y) | x <- xs | y <- ys]
+
+numberedPrimesProperly :: [(Int, Int)]
+numberedPrimesProperly = zip' [1..] primes
 
 
 
@@ -171,7 +128,8 @@ zip xs ys = undefined
 -- recall fibs = [1,1,2,3,5,8,...]
 
 fibs :: [Int]
-fibs = undefined
+fibs = 1:1:[ x + y | x <- fibs |
+                     y <- tail fibs]
 
 
 
@@ -188,11 +146,16 @@ fibs = undefined
 
 
 
-{- PART 2: USING LIST COMPREHENSIONS AS A POOR
-           MAN'S DATABASE -}
+{- PART 2: USING LIST COMPREHENSIONS AS A
+           POOR MAN'S DATABASE -}
 
 lookup :: Eq a => a -> [(a,b)] -> [b]
-lookup k t = undefined
+lookup k t = [ b | (a,b) <- t
+                 , a == k ]
+
+-- SELECT b
+--   FROM t
+--  WHERE a = k
 
 -- Example modified from Simon Thompson:
 -- 'Haskell: The Craft of Functional Programming'
@@ -210,26 +173,15 @@ exampleDB = [("Alice", "Tintin", 1)
             ,("Rory","Tintin", 0)
             ]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 books :: Database -> Person -> [Book]
-books db per = undefined
+books db per = [ book |
+                  (per, book, _) <- db ]
+                --, per == per' ]
 
-
-lateBooks :: Database -> [(Book,Person)]
-lateBooks db = undefined
-
+--lateBooks :: Database -> [(Book,Person)]
+lateBooks db =
+   [ per | (per, book, fee) <- db,
+                  fee > 0 ]
 
 
 
