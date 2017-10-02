@@ -3,7 +3,7 @@
 strathclydeformat='[a-z]{3}[0-9]{5}'
 
 # Use current username if it looks correct
-if [[ $USERaaa =~ $strathclydeformat ]]; then
+if [[ $USER =~ $strathclydeformat ]]; then
   name=$USER
 else
   read -p "Gitlab username: " name
