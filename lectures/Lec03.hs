@@ -535,8 +535,8 @@ basename0 extension filename =
    rev' -- so we can complete our definition: -}
 
 basename :: String -> String -> Maybe String
-basename ext filename =
-  maybeApply (Just rev) (sawPrefix (rev ext) (rev filename))
+basename extension filename =
+  maybeApply (Just rev) (sawPrefix (rev extension) (rev filename))
 
 {- Now we get:
 
