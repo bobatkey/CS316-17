@@ -159,7 +159,17 @@ that we have found useful.
   is a free online book that starts very gently, but also includes
   some very advanced material.
 
+- [Parallel and Concurrent Programming in
+  Haskell](http://chimera.labs.oreilly.com/books/1230000000929) by
+  Simon Marlow. This book is an excellent description of the
+  facilities in Haskell for parallel and concurrent programming. We
+  will cover some of these in Lectures 20 and 21. The full text is
+  available online for free reading.
+
 - [Learn You a Haskell for Great
-  Good!](http://learnyouahaskell.com/). The full text of this book is
+  Good!](http://learnyouahaskell.com/). This is an introductory book
+  on Haskell, covering roughly the same material as this course, but
+  with a different presentation. There are attempts at humour, but you
+  might find them grating after a while. The full text of this book is
   available online for free.
 
