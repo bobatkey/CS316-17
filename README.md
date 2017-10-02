@@ -92,6 +92,24 @@ marks, and also put them on the [Marx
 system](https://personal.cis.strath.ac.uk/conor.mcbride/Marx/?page=CS316)
 for you to see.
 
+### Git commands
+
+To clone a local copy of this git repository, execute
+
+```
+git clone https://github.com/bobatkey/CS316-17/
+```
+
+Then execute
+
+```
+./set-up-gitlab.sh
+```
+
+to set up syncing with your personal gitlab account. (This script only
+works from your Strathclyde account. Ask us if you want help setting
+things up e.g. on your personal computer.)
+
 ## Helpful Links
 
 ### Other Lecture Courses
