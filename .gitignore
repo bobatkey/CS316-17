@@ -3,3 +3,5 @@
 *.pdf
 *.out
 *.log
+*.synctex.gz
+*.dropbox.attr
