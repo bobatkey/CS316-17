@@ -4,9 +4,9 @@ In the last lecture we introduced the two basic concepts in Haskell
 (and functional programming in general): data and transformation of
 data by pattern matching. We also introduced the central role of
 *types* -- ways of collecting related sorts of data into meaningful
-groups. We defined our our type of lists. In this lecture, we will
-take a tour of some of the types predefined by Haskell, and introduce
-the concept of *type classes*, groupings of related types.
+groups. In this lecture, we take a tour of some of the types
+predefined by Haskell, and introduce the concept of *type classes*,
+groupings of related types.
 
 ## Introducing GHCi and the REPL
 
@@ -48,25 +48,50 @@ Prelude> 2 * 5
 Now that we have a way to explore Haskell interactively, we can start
 to explore the types that come predefined.
 
-## Built-in Types
+## Exploring Some Types
 
-
-
-### Questions to ask of every type
+Before we start our exploration of Haskell's predefined types, we'd
+better set out some questions that we'll ask of each type. This will
+make our exploration a little more systematic.
 
 1.  How do we form the type?
 
+    The first thing to know about a type is how we write down for the
+    Haskell system to understand. Often, this will be a case of just
+    writing down the name of the type (e.g., "`Integer`"), but
+    some types need to be supplied with parameters.
+
 2.  What values does the type admit?
+
+    Once we know how to write a type's name, we need to know how to
+    write some values in that type.
 
 3.  How do I use the values? (can I pattern match?)
 
+    A type is not only defined by the values it contains, but also by
+    the way that those values may be used. Most types in Haskell can
+    be used by pattern matching, but not all (for example, function
+    types `a -> b` contain functions, which can be applied to inputs,
+    but cannot be pattern matched on, as we shall see below).
+
 4.  Is there any fancy syntax for the type, or its values?
+
+    Some types have special syntax built in to the Haskell system to
+    make them a bit more ergonomic. For example, lists have the
+    special square bracket syntax `[1,2,3]`.
 
 5.  Does this type belong to any type classes?
 
+    As we mentioned above, types are organised into *classes*, which
+    tell us what operations can be used on all values of those
+    types. For example, the `Eq` type class tells us which types'
+    values can be tested for equality. We discuss type classes at the
+    end of the lecture.
 
 
 ### Booleans
+
+
 
 ```haskell
 Prelude> :info Bool
