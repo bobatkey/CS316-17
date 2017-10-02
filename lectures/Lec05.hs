@@ -75,13 +75,10 @@ insert x (y:ys) = if x <= y
 
    Using 'insert', we can write a sorting function by repeatedly
    inserting each element into a sorted list. Again, we can define
-   this function by structural recursion on the input list. The only case we need to think about 
-
-, again by structural 
--}
+   this function by structural recursion on the input list: -}
 
 isort :: Ord a => [a] -> [a]
-isort [] = []
+isort []     = []
 isort (x:xs) = insert x (isort xs)
 
 {- The advantage of using structural recursion is that it is easier to
@@ -155,7 +152,7 @@ qsort (x:xs) = qsort smaller ++ [x] ++ qsort larger
    QuickSort, and some might say it is not really QuickSort at
    all. QuickSort, as originally defined by Hoare, operated on arrays
    and sorted in instead of creating (a lot of) new lists as this
-   implementation does. See:
+   implementation does. For more informaton / opinions, see:
 
       https://stackoverflow.com/questions/7717691/why-is-the-minimalist-example-haskell-quicksort-not-a-true-quicksort
 
