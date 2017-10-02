@@ -7,7 +7,7 @@ Wk Day Date     Event      Prac  Purpose                                       W
    Thu 28 Sep   Tutorial   2     T1. FOP unveil                                B
    Fri 29 Sep   Lecture          4. list comprehensions (H5)                   F&B
 3  Mon  2 Oct   Lecture          5. recursive functions (H6)                   B&F
-                Lab        2
+                Lab        2                                                   Ben&B&F
    Thu  5 Oct   Tutorial   2     T2. FOP firefight
    Fri  6 Oct   Lecture          6. higher-order functions (H7)
 4  Mon  9 Oct   Lecture          7. declaring types and classes (H8)                       F
