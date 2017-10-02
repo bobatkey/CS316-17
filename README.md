@@ -100,15 +100,37 @@ To clone a local copy of this git repository, execute
 git clone https://github.com/bobatkey/CS316-17/
 ```
 
-Then execute
+Then `cd CS316-17` and execute
 
 ```
 ./set-up-gitlab.sh
 ```
 
-to set up syncing with your personal gitlab account. (This script only
-works from your Strathclyde account. Ask us if you want help setting
-things up e.g. on your personal computer.)
+to set up syncing with your personal Gitlab account. (*Update*: This
+script should now also work on your personal computer. Please ask us
+(in person or by email) if you want help setting things up.)
+
+After running the script, you can pull updates from Github by executing
+
+```
+git pull
+```
+
+in the directory `CS316-17` from above. To push your changes to gitlab (e.g. for assessment), first commit them
+
+```
+git commit -a -m "<commit message>"
+
+```
+
+then do
+
+```
+git push gitlab
+```
+
+on the command line. Enjoy!
+
 
 ## Helpful Links
 
