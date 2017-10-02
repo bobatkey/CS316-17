@@ -39,7 +39,7 @@ interspersed with commentary covering what we talked about.
 - [Lecture 2](lectures/Lec02.md) (notes in progress) : Standard types and classes. [The GHCi trace of the lecture](lectures/Lec02-trace.txt).
 - [Lecture 3](lectures/Lec03.hs) (with notes) : Defining functions
 - [Lecture 4](lectures/Lec04.hs) (with notes) : List comprehensions
-- [Lecture 5](lectures/Lec05.hs) (notes in progress) : Recursive functions
+- [Lecture 5](lectures/Lec05.hs) (with notes) : Recursive functions
 - Lecture 6 : Higher-order functions
 - Lecture 7 : Declaring types and classes
 - Lecture 8 : QuickCheck
