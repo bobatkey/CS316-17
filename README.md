@@ -53,6 +53,9 @@ are intended for going through some unassessed homework questions that
 we will set after the lectures, or for you to ask questions about the
 assessed exercises.
 
+- Tutorial 1: Unveiling of [Exercise 2 (FOP)](exercises/Ex2.hs).
+- Tutorial 2: Questions about Exercise 2, and working through some [unassessed homework questions](lectures/Tut02-exercises.md).
+
 ### One minute papers
 
 At every lecture and tutorial, we will hand out "One minute papers"
