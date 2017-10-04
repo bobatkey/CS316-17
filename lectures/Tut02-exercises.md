@@ -38,16 +38,20 @@
      ```
 
      (b) Using `luhnDouble` and the integer remainder function `mod`, define a
-     function `luhn :: Int -> Int -> Int -> Int -> Bool` that decides if a
+     function `luhnFour :: Int -> Int -> Int -> Int -> Bool` that decides if a
      four-digit bank card number is valid: For example:
 
      ```shell
-     > luhn 1 7 8 4
+     > luhnFour 1 7 8 4
      True
 
-     > luhn 4 7 8 3
+     > luhnFour 4 7 8 3
      False
      ```
+
+     (c) Using `luhnDouble` and `mod` again, define a more general
+     version `luhn :: [Int] -> Bool` of `luhnFour` that accepts card
+     numbers of any length.
 
  3. [H5.4] In a similar way to the function length, show how the
      library function `replicate :: Int -> a -> [a]` that produces a
