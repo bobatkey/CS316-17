@@ -8,17 +8,17 @@ Wk Day Date     Event      Prac  Purpose                                       W
    Fri 29 Sep   Lecture          4. list comprehensions (H5)                   F&B
 3  Mon  2 Oct   Lecture          5. recursive functions (H6)                   B&F
                 Lab        2                                                   Ben&B&F
-   Thu  5 Oct   Tutorial   2     T2. FOP firefight
-   Fri  6 Oct   Lecture          6. higher-order functions (H7)
+   Thu  5 Oct   Tutorial   2     T2. FOP firefight                             F
+   Fri  6 Oct   Lecture          6. higher-order functions (H7)                B&F
 4  Mon  9 Oct   Lecture          7. declaring types and classes (H8)                       F
                 Lab        2
    Thu 12 Oct   Tutorial   3     T3. HOP unveil                                            F
    Fri 13 Oct   Lecture          8. QuickCheck                                             F
-5  Mon 16 Oct   Lecture          9. functors (hints of parametricity)
+5  Mon 16 Oct   Lecture          9. recursion schemes
                 Deadline   2     2pm
                 Lab-Test   2
    Thu 19 Oct   Tutorial   2     T4. FOP autopsy
-   Fri 20 Oct   Lecture          10. recursion schemes
+   Fri 20 Oct   Lecture          10. functors and containers
 6  Mon 23 Oct   Lecture          11. building pure evaluators
                 Lab        3
    Thu 26 Oct   Tutorial   3     T5. HOP firefight
