@@ -4,30 +4,96 @@ import Prelude hiding (map, filter, reverse, (++), (.))
 
 {-    LECTURE 06 : HIGHER ORDER FUNCTIONS
 
+   In this lecture, we talked about the concept of functions as
+   values, and how this can be used to turn programs that solve one
+   specific problem into more general programs that solve whole
+   classes of problems.
 
--}
+   Haskell programs can pass values like integers and strings to and
+   from functions, and store them in structures like lists and
+   trees. Haskell treats functions no differently from any other kind
+   of data: functions can be returned as the result of functions,
+   passed into functions, and stored in data structures.
 
-{-    PART I : FUNCTIONS THAT RETURN FUNCTIONS -}
+   First, we will look at how functions can return functions as
+   results. -}
+
+{-    PART I : FUNCTIONS THAT RETURN FUNCTIONS
+
+   We've already seen many functions that take several arguments. An
+   example is 'add', which adds two 'Int's and returns an 'Int': -}
 
 add :: Int -> Int -> Int
 add x y = x + y
 
+{- We write the type of a function that takes two arguments like so:
+
+        t1 -> t2 -> t3
+
+   What we've not mentioned so far is that this is really shorthand
+   notation for the following type with parentheses inserted:
+
+        t1 -> (t2 -> t3)
+
+   Remembering that 'a -> b' is the type of functions that take 'a's
+   and return 'b's, we can read this type as the type of "functions
+   that take 't1's and return functions that take 't2's and return
+   't3's.
+
+   Therefore, the add function "takes an 'Int' and returns a function
+   that takes an(other) 'Int' and returns an 'Int'.
+
+   Once we see that 'add' is really a function that returns a
+   function, we can see that we needn't always give it two
+   arguments. We can define the 'addTen' functions by only giving
+   'add' one of its arguments: -}
+
 addTen :: Int -> Int
 addTen = add 10
+
+{- 'addTen' has type 'Int -> Int', even though we didn't write an
+   argument name on the left side of the '='s, because 'add' has type
+   'Int -> (Int -> Int)' and we've given an 'Int', leaving 'Int ->
+   Int'. We could also write 'addTen' giving an explicit name for the
+   argument, which we pass on to 'add 10'. This gives 'addTen2', which
+   is equivalent to 'addTen': -}
 
 addTen2 :: Int -> Int
 addTen2 x = add 10 x
 
-add2 :: Int -> (Int -> Int)
-add2 = \x y -> x + y
+{- We can see even more clearly that multi-argument functions in Haskell
+   work by taking one argument and returning a function by writing out
+   a definition of 'add' using the '\x -> E' notation for
+   functions. (The backslash '\' is meant to be an ASCII
+   representation of a Greek lambda, because 'lambda' is a commonly
+   used mathematical notation for writing anonymous functions.) An
+   expression of the form '\x -> E' stands for "a function that takes
+   an argument, which we call 'x', and returns 'E'". We write out
+   'add' in this form like so: -}
 
--- \x y (z1,z2) -> E
+add2 :: Int -> (Int -> Int)
+add2 = \x -> (\y -> x + y)
+
+{- As a shorthand, we can avoid writing things like "\x -> (\y -> (\z ->
+   ..." and instead write all the argument names toegther: -}
+
+add3 :: Int -> (Int -> Int)
+add3 = \x y -> x + y
+
+{- The `\`/lambda notation also accepts patterns as well as argument
+   names, as long as there is only one pattern. For example, pattern
+   matching against pairs: -}
 
 fst2 :: (a,b) -> a
 fst2 = \(a,b) -> a
 
--- foo :: Int -> (A -> (B -> (C -> D)))
-
+{- The '\'/lambda notation for functions may seem a bit pointless so
+   far. Everything we've written using this notation could have been
+   written more simply by placing the argument names to the left of
+   the '='s. The advantage of the '\'/lambda notation is that it
+   allows us to write functions without needing to give them
+   names. We'll see why this is important after we look at functions
+   that take other functions as input. -}
 
 
 {-    PART II : FUNCTIONS THAT TAKE FUNCTIONS AS INPUT -}
