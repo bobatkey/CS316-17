@@ -74,8 +74,12 @@ addTen2 x = add 10 x
 add2 :: Int -> (Int -> Int)
 add2 = \x -> (\y -> x + y)
 
-{- As a shorthand, we can avoid writing things like "\x -> (\y -> (\z ->
-   ..." and instead write all the argument names toegther: -}
+{- (Look at the way the bracketing in the program matches the bracketing
+   in the type!)
+
+   As a shorthand, we can avoid writing things like "\x -> (\y -> (\z ->
+   ..." and instead write all the argument names together before the
+   "->": -}
 
 add3 :: Int -> (Int -> Int)
 add3 = \x y -> x + y
@@ -87,7 +91,9 @@ add3 = \x y -> x + y
 fst2 :: (a,b) -> a
 fst2 = \(a,b) -> a
 
-{- The '\'/lambda notation for functions may seem a bit pointless so
+{- (Look at the coincidence between the type and the program!)
+
+   The '\'/lambda notation for functions may seem a bit pointless so
    far. Everything we've written using this notation could have been
    written more simply by placing the argument names to the left of
    the '='s. The advantage of the '\'/lambda notation is that it
@@ -97,6 +103,8 @@ fst2 = \(a,b) -> a
 
 
 {-    PART II : FUNCTIONS THAT TAKE FUNCTIONS AS INPUT -}
+
+
 
 ten :: Int
 ten = add 5 5
