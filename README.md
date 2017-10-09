@@ -41,7 +41,7 @@ interspersed with commentary covering what we talked about.
 - [Lecture 4](lectures/Lec04.hs) (with notes) : List comprehensions
 - [Lecture 5](lectures/Lec05.hs) (with notes) : Recursive functions
 - [Lecture 6](lectures/Lec06.hs) (notes in progress): Higher-order functions
-- Lecture 7 : Declaring types and classes
+- [Lecture 7](lectures/Lec07.hs) (notes in progress): Declaring types and classes
 - Lecture 8 : QuickCheck
 
 ### Tutorials
