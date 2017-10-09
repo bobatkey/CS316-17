@@ -45,7 +45,7 @@ interspersed with commentary covering what we talked about.
 - Lecture 8 : QuickCheck
 - Lecture 9 : Recursion Schemes
 - Lecture 10 : Functors and Containers
-- Lceture 11 : Building Pure Evaluators
+- Lecture 11 : Building Pure Evaluators
 
 ### Tutorials
 
