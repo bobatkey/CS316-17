@@ -1,6 +1,6 @@
 module Lec06 where
 
-import Prelude hiding (map, filter, reverse, (++), (.))
+import Prelude hiding (map, filter, (.))
 
 {-    LECTURE 06 : HIGHER ORDER FUNCTIONS
 
@@ -232,12 +232,29 @@ map :: (a -> b) -> [a] -> [b]
 map f [] = []
 map f (x:xs) = f x : map f xs
 
+{- We get back to 'doubleAll' by applying 'map' to 'double': -}
+
 doubleAll2 :: [Int] -> [Int]
 doubleAll2 = map double
+
+{- 'map' allows us to "lift" any function acting on things to a function
+   acting on lists of those things. For instance, taking the first
+   value of a list of pairs by mapping 'fst' across the list: -}
 
 fsts :: [(a,b)] -> [a]
 fsts = map fst
 
+{- Or pairing strings with their lengths: -}
+
+withLengths :: [String] -> [(String, Int)]
+withLengths = map (\s -> (s, length s))
+
+{- Another useful higher-order function on lists is 'filter'. This
+   function filters the input list to only keep the elements that
+   match some condition. The condition is provided as a function of
+   type 'a -> Bool', where 'a' is the type of elements of the
+   list. Instead of working from specific-to-general as we did above
+   we give the function 'filter' directly: -}
 
 filter :: (a -> Bool) -> [a] -> [a]
 filter p [] = []
@@ -245,35 +262,118 @@ filter p (x:xs)
   | p x       = x : filter p xs
   | otherwise = filter p xs
 
+{- Now we can use 'filter' to quickly write a function that only keeps
+   the even numbers in a list. -}
+
 onlyEvens :: [Int] -> [Int]
 onlyEvens = filter (\x -> x `mod` 2 == 0)
 
+{- The functions 'map' and 'filter' are a useful pair of tools for
+   building functions that work on lists, without having to write
+   similar looking code over and over again.
+
+   Now that we have reusable functions for transforming lists, we need
+   a way to plug them toegther. We do this by 'composing' two
+   functions using the 'compose' function: -}
 
 compose :: (b -> c) -> (a -> b) -> a -> c
 compose f g x = f (g x)
 
+{- 'compose' is so useful that the Haskell standard library calls it
+   '.', and it is written infix (i.e., between its arguments. The '.'
+   is meant to mimic in ASCII the mathematical circle notation for
+   function composition.
+
+   Here is a definition of '.', written using the '\'/lambda notation: -}
+
 (.) :: (b -> c) -> (a -> b) -> a -> c
 f . g = \x -> f (g x)
 
-{-
-    grep CS316 registered-students.txt | cut -f1
--}
+{- Function composition is especially useful for creating 'pipelines'
+   that plug together several basic functions for processing lists
+   into a larger list processing function. The concept is similar to
+   the idea of Unix pipelines that plug together small programs that
+   do one thing into larger units.
+
+   An example Unix pipeline is the following. The 'grep' ("global
+   regular expression") program searches for lines that match some
+   pattern (here "CS316"), and the 'cut' program extracts certain
+   fields from each line (here "-f1" indicates that we want the first
+   field).
+
+      grep CS316 registered-students.txt | cut -f1
+
+    In Haskell, we replace 'grep' with 'filter', and 'cut' with 'map
+    fst' to get the following, where we've used function composition
+    '(.)' to plug together the basic functions. Note that Haskell
+    pipelines go right to left, unlike Unix pipelines, which go left
+    to right. -}
 
 pipeline :: [(String,Int)] -> [String]
-pipeline = fsts . filter (\(s,i) -> s == "CS316")
+pipeline = map fst . filter (\(s,i) -> s == "CS316")
 
-{-
-  grep CS316 registered-students.txt | wc -l
--}
+{- Another example uses 'wc -l' to count the number of lines in the
+   output of 'grep':
+
+      grep CS316 registered-students.txt | wc -l
+
+   We can mimic this by using 'length': -}
 
 pipeline2 :: [(String,Int)] -> Int
 pipeline2 = length . filter (\(s,i) -> s == "CS316")
 
+{- An example of a longer pipeline is the following, which selects every
+   other element from a list: -}
+
 everyOther :: [a] -> [a]
 everyOther = map snd . filter (\ (i,x) -> i `mod` 2 == 1) . zip [0..]
 
---     zip               filter (...)              map snd
--- [a] ---> [(Int, a)] ----------------> [(Int,a)] --------> [a] 
+{- How does this work? Let's break it down:
+
+     1. First, we pair every element in the input list with its index
+        by zipping with the infinite list [0..] (remember how we did
+        this in Lecture 04)
+
+     2. Then we filter to get only the element of the list with odd
+        index.
+
+     3. Then we map 'snd' over the list to throw away the indexes and
+        keep the data.
+ 
+   Graphically, we can visualise the pipeline as follows, with types
+   for the intermediate stages:
+
+       zip               filter (...)              map snd
+   [a] ---> [(Int, a)] ----------------> [(Int,a)] --------> [a] 
+
+   Unfortunately, 'everyOther' isn't particularly efficient. In any
+   list of reasonable size, we'll be generating quite large numbers
+   when all we are really interested in is whether or not they are
+   odd.
+
+   An alternative strategy is to zip with the infinite list
+
+       [False, True, False, True, False, True, ...]
+
+   This will produce a list like:
+
+       [(False, x1), (True, x2), (False, x3), (True, x4), ...]
+
+   Keeping the elements with 'True' in the first element will yield:
+
+       [(True, x2), (True, x4), (True, x6), ...]
+
+   And mapping 'snd' will give us:
+
+       [x2, x4, x6, ...]
+
+   as we want.
+
+   Happily, the Haskell standard library function 'cycle' can produce
+   infinite lists like [False, True, False, True, ...]. Given any
+   finite list 'l', 'cycle l' repeats that list over and over again
+   forever. We can use 'cycle' to code up this alternative strategy
+   for 'everyOther': -}
 
 everyOther2 :: [a] -> [a]
 everyOther2 =  map snd . filter fst . zip (cycle [False, True])
