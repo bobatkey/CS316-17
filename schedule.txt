@@ -10,10 +10,10 @@ Wk Day Date     Event      Prac  Purpose                                       W
                 Lab        2                                                   Ben&B&F
    Thu  5 Oct   Tutorial   2     T2. FOP firefight                             F
    Fri  6 Oct   Lecture          6. higher-order functions (H7)                B&F
-4  Mon  9 Oct   Lecture          7. declaring types and classes (H8)                       F
+4  Mon  9 Oct   Lecture          7. declaring types and classes (H8)           B           F
                 Lab        2
-   Thu 12 Oct   Tutorial   3     T3. HOP unveil                                            F
-   Fri 13 Oct   Lecture          8. QuickCheck                                             F
+   Thu 12 Oct   Tutorial   3     T3. HOP unveil                                B           F
+   Fri 13 Oct   Lecture          8. QuickCheck                                 B           F
 5  Mon 16 Oct   Lecture          9. recursion schemes
                 Deadline   2     2pm
                 Lab-Test   2
