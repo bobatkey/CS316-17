@@ -7,12 +7,17 @@ import Prelude hiding
 
 -}
 
-{-    PART I : TYPE SYNONYMS -}
+{-    PART I : TYPE SYNONYMS
+
+
+-}
 
 type String = [Char]
 
 message :: String
 message = "Help I'm stuck in a Haskell program!"
+
+{- Type synonyms for documentation purposes. -}
 
 type Position = (Float, Float)
 
@@ -24,21 +29,33 @@ type Transformation = Position -> Position
 doNothing :: Transformation
 doNothing x = x
 
-mirror :: Transformation
-mirror (x,y) = (-x, y)
+north :: Transformation
+north (x,y) = (x,y+1)
+
+south :: Transformation
+south (x,y) = (x,y-1)
+
+east :: Transformation
+east (x,y) = (x+1,y)
+
+west :: Transformation
+west (x,y) = (x-1,y)
+
+{- Type synonyms with parameters -}
 
 type Pair a = (a,a)
 
 type Position2 = Pair Float
+
+
+{- Not allowed: recursive type synonyms. -}
 
 -- type List = (Integer, List)
 
 
 {-    PART II : DATA TYPES -}
 
-data List a
-  = Nil
-  | Cons a (List a)
+-- "Enumeration" types, listing the possibilities:
 
 data Direction
   = North
@@ -48,19 +65,16 @@ data Direction
   deriving Show
 
 move :: Direction -> Transformation
-move North (x,y) = (x,y+1)
-move South (x,y) = (x,y-1)
-move East  (x,y) = (x+1,y)
-move West  (x,y) = (x-1,y)
+move North = north
+move South = south
+move East  = east
+move West  = west
 
+-- Recursive types
 
-data Maybe a = Nothing | Just a
-
-safeDivision :: Int -> Int -> Maybe Int
-safeDivision x 0 = Nothing
-safeDivision x y = Just (x `div` y)
-
--- Recursive type
+data List a
+  = Nil
+  | Cons a (List a)
 
 data Natural
   = Zero
@@ -70,6 +84,8 @@ zero = Zero
 one = Succ zero
 two = Succ one
 three = Succ two
+
+-- Different sorts of trees.
 
 data Tree a
   = Leaf
@@ -94,8 +110,16 @@ data JSON
   | Object [(String,JSON)]
   deriving (Eq)
 
+-- Using custom datatypes to avoid functions that throw errors:
+
+data Maybe a = Nothing | Just a
+
+safeDivision :: Int -> Int -> Maybe Int
+safeDivision x 0 = Nothing
+safeDivision x y = Just (x `div` y)
+
 hd :: [a] -> Maybe a
-hd [] = Nothing
+hd []     = Nothing
 hd (x:xs) = Just x
 
 data NEList a
@@ -142,7 +166,7 @@ instance Show a => Show (List a) where
 -- instance Show (List a) => Show (List a) where
 --   show x = "ksudhkhgdfuhgrhgldij"
 
--- instance Show (
+{- Another custom Show instances: -}
 
 naturalToInteger :: Natural -> Integer
 naturalToInteger Zero = 0
@@ -151,6 +175,8 @@ naturalToInteger (Succ n) = 1 + naturalToInteger n
 instance Show Natural where
   show n = show (naturalToInteger n)
 
+
+{- Our own custom type class: -}
 
 class Monoid m where
   munit :: m
