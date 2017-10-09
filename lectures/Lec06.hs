@@ -209,10 +209,24 @@ octtuple = twice quadruple
 
 {- FIXME: another example of twice. -}
 
+{- One of the most useful places to use higher-order functions is to
+   make general functions for processing containers full of
+   data. Here, we will concenrate on lists. Let's see how to make some
+   reusable functions on lists by following the same
+   specific-to-general methodology that we did above.
+
+   Here is a function that doubles every element of a list of
+   integers: -}
 
 doubleAll :: [Int] -> [Int]
-doubleAll [] = []
+doubleAll []     = []
 doubleAll (x:xs) = double x : doubleAll xs
+
+{- As above, we not that there is nothing special about use of the
+   'double' function here. So we can move from the specific 'double'
+   to the general 'f'. This gives us a general function that applies
+   'f' to every element of a list, giving a new list of transformed
+   elements. The name 'map' is the traditional name for this function: -}
 
 map :: (a -> b) -> [a] -> [b]
 map f [] = []
