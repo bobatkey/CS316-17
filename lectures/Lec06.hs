@@ -211,7 +211,7 @@ octtuple = twice quadruple
 
 {- One of the most useful places to use higher-order functions is to
    make general functions for processing containers full of
-   data. Here, we will concenrate on lists. Let's see how to make some
+   data. Here, we will concentrate on lists. Let's see how to make some
    reusable functions on lists by following the same
    specific-to-general methodology that we did above.
 
@@ -273,7 +273,7 @@ onlyEvens = filter (\x -> x `mod` 2 == 0)
    similar looking code over and over again.
 
    Now that we have reusable functions for transforming lists, we need
-   a way to plug them toegther. We do this by 'composing' two
+   a way to plug them together. We do this by 'composing' two
    functions using the 'compose' function: -}
 
 compose :: (b -> c) -> (a -> b) -> a -> c
