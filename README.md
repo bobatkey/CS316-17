@@ -85,9 +85,10 @@ split between the four exercises is shown below:
   released on Thursday 28th September (week 2), and the final deadline
   and test are on Monday 16th October (week 5).
 
-- Exercise 3 (30%) : Higher-order Programming (HOP). This will be
-  released on Thursday 12th October (week 4), and the final deadline
-  and test are on Monday 6th November (week 8).
+- Exercise 3 (30%) : [Higher-order Programming
+  (HOP)](exercises/Ex3.hs). This will be released on Thursday 12th
+  October (week 4), and the final deadline and test are on Monday 6th
+  November (week 8).
 
 - Exercise 4 (35%) : GHOUL. This will be released on Thursday 2nd
   November (week 7), and the final deadline and test are on Monday
