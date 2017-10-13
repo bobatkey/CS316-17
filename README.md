@@ -41,8 +41,8 @@ interspersed with commentary covering what we talked about.
 - [Lecture 4](lectures/Lec04.hs) (with notes) : List comprehensions
 - [Lecture 5](lectures/Lec05.hs) (with notes) : Recursive functions
 - [Lecture 6](lectures/Lec06.hs) (with notes) : Higher-order functions
-- [Lecture 7](lectures/Lec07.hs) (notes in progress): Declaring types and classes
-- Lecture 8 : QuickCheck
+- [Lecture 7](lectures/Lec07.hs) (notes in progress) : Declaring types and classes
+- [Lecture 8](lectures/Lec08.hs) (notes in progress) : QuickCheck
 - Lecture 9 : Recursion Schemes
 - Lecture 10 : Functors and Containers
 - Lecture 11 : Building Pure Evaluators
