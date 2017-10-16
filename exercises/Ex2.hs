@@ -110,8 +110,24 @@ rightSpine t = undefined     -- you write this
 {- 2 marks -}
 
 {----------------------------------------------------------------------}
-{- 2.5 WILL BE REVEALED IN THE TEST                                   -}
-{- 3 marks                                                            -}
+{- 2.5 Left spines (TEST)                                             -}
+
+{- The "left spine" is defined similarly, except that we start at the
+   root and descend into each left subtree. Write a function to
+   compute the left spine of a tree. -}
+
+leftSpine :: Tree x -> [x]
+leftSpine t = undefined -- you should define this
+
+{- 2 marks -}
+
+{- QUESTION: Can you think of an equation which relates leftSpine,
+   rightSpine and mirror, for any finite tree t?
+
+   ANSWER: write your answer here
+-}
+
+{- 1 mark -}
 {----------------------------------------------------------------------}
 
 {- Assuming you can test values only for equality, we can write a function
@@ -149,7 +165,21 @@ ordFindInTree x t = undefined -- write this function
 {- 4 marks -}
 
 {----------------------------------------------------------------------}
-{- 2.7 WILL BE REVEALED IN THE TEST                                   -}
+{- 2.7 Distinguishing Examples of Trees  (TEST)                       -}
+
+{- Functions act strangely if their assumptions are not satisfied. The
+   'ordFindInTree' function expects its input to be a binary search
+   tree.
+
+   Give an example of a tree and a value to search for that gives
+   different answers with 'eqFindInTree' and 'ordFindInTree'. -}
+
+differentiatingTree :: Tree a   -- fill in 'a' with a type of your choice
+differentiatingTree = undefined
+
+differentiatingValue :: a  -- and here
+differentiatingValue = undefined
+
 {- 5 marks                                                            -}
 {----------------------------------------------------------------------}
 
@@ -294,8 +324,38 @@ andGate' = undefined     -- you define it
 {- 2 marks -}
 
 {----------------------------------------------------------------------}
-{- 2.12 WILL BE REVEALED IN THE TEST                                  -}
-{- 2 marks                                                            -}
+{- 2.12 Further gates (TEST)                                          -}
+
+{- Define a process which reads two inputs and implements implication;
+   that is, it should return False exactly when the first input is
+   True but the second one is not. Use wire, notGate, always, etc. if
+   you can. -}
+
+implicationGate :: Process
+implicationGate = undefined -- you write this
+
+{- use ghci to check that
+     process implicationGate [False,False] = [True]
+     process implicationGate [False,True]  = [True]
+     process implicationGate [True,False]  = [False]
+     process implicationGate [True,True]   = [True]
+-}
+
+{- Define a process which reads two bits of input and returns True if
+   they are the same, and False otherwise. Again, make use of wire,
+   notGate, always, etc. when possible. -}
+
+equalGate :: Process
+equalGate = undefined -- you write this
+
+{- use ghci to check that
+     process equalGate [False,True]  = [False]
+     process equalGate [True,False]  = [False]
+     process equalGate [True,True]   = [True]
+     process equalGate [False,False] = [True]
+-}
+
+{- 2 marks -}
 {----------------------------------------------------------------------}
 
 {- 2.13 Copy1. Write a process which reads *one* bit of input, then outputs
@@ -464,11 +524,59 @@ fadd = undefined     -- you define it
 {- 3 marks -}
 
 {----------------------------------------------------------------------}
-{- 2.20 WILL BE REVEALED IN THE TEST                                  -}
-{- 5 marks                                                            -}
+{- 2.20 process with left-over input, and error handling (TEST)       -}
+
+{- The current 'process' function above suffers from two problems:
+
+   1. It can starve---expect more input when there is none (not
+      enough input)---and
+
+   2. it can finish without consuming all its input (too much input)
+
+   Fix these problems by defining a new function
+
+    process2 :: Process -> [Bool] -> Maybe ([Bool], [Bool])
+
+   which returns 'Nothing' if it is starving, and 'Just (os, ls)'
+   otherwise, where os is the list of output bits, and ls the list of
+   unconsumed inputs.
+
+   Examples:
+
+    process2 (Input wire wire) []                = Nothing
+    process2 norGate [True, False, False, True]  = Just ([False], [False, True])
+    process2 (Input notGate orGate) [True, False]  = Just ([True], [])
+    process2 (Input notGate orGate) [False, False] = Nothing
+
+-}
+
+process2 :: Process -> [Bool] -> Maybe ([Bool], [Bool])
+process2 = undefined -- you write this
+
+{- 5 marks -}
 {----------------------------------------------------------------------}
 
 {----------------------------------------------------------------------}
-{- 2.21 WILL BE REVEALED IN THE TEST                                  -}
+{- 2.21 Expectations (TEST)                                           -}
+
+{- Write a function that takes an Integer 'n' and generates a process that
+   expects 'n' inputs, not caring whether they are 'True' or
+   'False'. After it has seen 'n' inputs it should output 'True' and
+   stop. -}
+
+expectN :: Integer -> Process
+expectN = undefined
+
+{- Write a function that takes an Integer 'n' and an Integer 'm' and
+   generates a process that expects 'n+m' inputs of which 'n' must be
+   'True' and 'm' must be 'False', in any order. Once it has seen 'n'
+   'True' and 'm' 'False' it should output 'True'. If it sees too many
+   'True's while waiting for a 'False', or too many 'False's while
+   waiting for a 'True', then it should output 'False'. After
+   outputting, the process should end. -}
+
+expectNM :: Integer -> Integer -> Process
+expectNM = undefined
+
 {- 5 marks                                                            -}
 {----------------------------------------------------------------------}
