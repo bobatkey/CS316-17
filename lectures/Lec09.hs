@@ -186,6 +186,50 @@ eqNat2 = iterNat -- 'a = Nat -> Bool'
                             Zero -> False
                             Succ n' -> eqNat_m n')
 
+{- Let's step through a run of 'eqNat2' to get a feel for what is going
+   on. We write
+
+     zeroCase = (\n -> case n of
+                         Zero -> True
+                         Succ _ -> False)
+
+     succCase = (\eqNat_m n -> case n of
+                                 Zero -> False
+                                 Succ n' -> eqNat_m n')
+
+     so that eqNat2 = iterNat zeroCase succCase.
+
+     eqNat2 (Succ Zero) (Succ (Succ Zero))
+   =   { write superfluous brackets for emphasis }
+     (eqNat2 (Succ Zero)) (Succ (Succ Zero))
+   =   { expand definition of eqNat2 }
+     (iterNat zeroCase succCase (Succ Zero)) (Succ (Succ Zero))
+   =   { definition of iterNat ... (Suc Zero) }
+     (succCase (iterNat zeroCase succCase Zero)) (Succ (Succ Zero))
+   =   { expand definition of succCase }
+     (\eqNat_m n -> case n of Zero -> False; Succ n' -> eqNat_m n')
+      (iterNat zeroCase succCase Zero)
+      (Succ (Succ Zero))
+   =   { application of a lambda expression to arguments }
+     case (Suc (Suc Zero)) of
+       Zero -> False
+       Succ n' -> (iterNat zeroCase succCase Zero) n'
+   =   { case expression of a constructor }
+     (iterNat zeroCase succCase Zero) (Suc Zero)
+   =   { definition of iterNat ... Zero }
+     zeroCase (Suc Zero)
+   =   { expand definition of zeroCase }
+     (\n -> case n of Zero -> True; Succ _ -> False) (Suc Zero)
+   =   { application of a lambda expression to arguments }
+     case (Suc Zero) of Zero -> True; Succ _ -> False
+   =   { case expression of a constructor }
+     False
+
+   So 'one' is not equal to 'two'. Try stepping through
+   eqNat2 (Suc Zero) (Suc Zero) yourself!
+-}
+
+
 {- Explicitly pattern matching seems to go against the spirit of
    'iterNat'. Can we replace the 'case' expressions with uses of
    'iterNat'?
