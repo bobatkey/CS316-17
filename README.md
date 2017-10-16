@@ -43,7 +43,7 @@ interspersed with commentary covering what we talked about.
 - [Lecture 6](lectures/Lec06.hs) (with notes) : Higher-order functions
 - [Lecture 7](lectures/Lec07.hs) (notes in progress) : Declaring types and classes
 - [Lecture 8](lectures/Lec08.hs) (notes in progress) : QuickCheck
-- Lecture 9 : Recursion Schemes
+- [Lecture 9](lectures/Lec09.hs) (with notes) : Recursion Schemes
 - Lecture 10 : Functors and Containers
 - Lecture 11 : Building Pure Evaluators
 
