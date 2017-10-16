@@ -59,6 +59,7 @@ assessed exercises.
 - Tutorial 1: Unveiling of [Exercise 2 (FOP)](exercises/Ex2.hs).
 - Tutorial 2: Questions about Exercise 2, and working through some [unassessed homework questions](lectures/Tut02-exercises.md).
 - Tutorial 3: Unveiling of [Exercise 3 (HOP)](exercises/Ex3.hs).
+- Tutorial 4: Retrospective on Exercise 2 (FOP).
 
 ### One minute papers
 
