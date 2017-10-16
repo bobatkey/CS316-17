@@ -136,11 +136,12 @@ iterLeftFromIterRight_2 f n l = iterRight (flip f) n (reverse l)
 
 type TestingType = ()  -- replace this with a type to test with
 
-iterLeftFromIterRight_prop :: ((b -> a -> b) -> b -> [a] -> b)
-                           -> TestingType -> [TestingType] -> Bool
+iterLeftFromIterRight_prop ::
+  ((TestingType -> TestingType -> TestingType) -> TestingType -> [TestingType] -> TestingType)
+  -> TestingType -> [TestingType] -> Bool
 iterLeftFromIterRight_prop candidate n l = undefined
 
-{- Atfer you've worked it out, fill in this:
+{- After you've worked it out, fill in this:
 
         <REPLACE THIS> is the correct implementation
 -}
