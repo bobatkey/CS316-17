@@ -14,12 +14,12 @@ Wk Day Date     Event      Prac  Purpose                                       W
                 Lab        2
    Thu 12 Oct   Tutorial   3     T3. HOP unveil                                B           F
    Fri 13 Oct   Lecture          8. QuickCheck                                 B           F
-5  Mon 16 Oct   Lecture          9. recursion schemes
+5  Mon 16 Oct   Lecture          9. recursion schemes                          B&F
                 Deadline   2     2pm
                 Lab-Test   2
-   Thu 19 Oct   Tutorial   2     T4. FOP autopsy
-   Fri 20 Oct   Lecture          10. functors and containers
-6  Mon 23 Oct   Lecture          11. building pure evaluators
+   Thu 19 Oct   Tutorial   2     T4. FOP autopsy                               F
+   Fri 20 Oct   Lecture          10. functors and containers                   B&F
+6  Mon 23 Oct   Lecture          11. building pure evaluators                              F
                 Lab        3
    Thu 26 Oct   Tutorial   3     T5. HOP firefight
    Fri 27 Oct   Lecture          12. applicatives and monads (H12)
