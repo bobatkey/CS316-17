@@ -19,7 +19,7 @@ Wk Day Date     Event      Prac  Purpose                                       W
                 Lab-Test   2
    Thu 19 Oct   Tutorial   2     T4. FOP autopsy                               F
    Fri 20 Oct   Lecture          10. functors and containers                   B&F
-6  Mon 23 Oct   Lecture          11. building pure evaluators                              F
+6  Mon 23 Oct   Lecture          11. building pure evaluators                  B           F
                 Lab        3
    Thu 26 Oct   Tutorial   3     T5. HOP firefight
    Fri 27 Oct   Lecture          12. applicatives and monads (H12)
