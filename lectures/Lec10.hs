@@ -4,9 +4,9 @@ import Prelude hiding (Monoid, Foldable (..), Functor(..), all, Maybe (..))
 
 {-    Lecture 10 : FUNCTORS AND CONTAINERS -}
 
--- data [a] = [] | a :: [a]
+{-
 
--- Bob:
+-- data [a] = [] | a :: [a]
 
 data Tree a
   = Leaf

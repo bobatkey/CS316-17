@@ -46,6 +46,8 @@ insert_test_1 =
 
 {-   PART II : PROPERTY BASED TESTING WITH QUICKCHECK -}
 
+-- http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf
+
 -- Why not test with lots of examples, not just one?
 
 append_left_nil_prop :: [Int] -> Bool
