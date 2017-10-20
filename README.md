@@ -44,7 +44,7 @@ interspersed with commentary covering what we talked about.
 - [Lecture 7](lectures/Lec07.hs) (notes in progress) : Declaring types and classes
 - [Lecture 8](lectures/Lec08.hs) (notes in progress) : QuickCheck
 - [Lecture 9](lectures/Lec09.hs) (with notes) : Recursion Schemes
-- Lecture 10 : Functors and Containers
+- [Lecture 10](lectures/Lec10.hs) (notes in progress) : Functors and Containers
 - Lecture 11 : Building Pure Evaluators
 
 ### Tutorials
@@ -142,6 +142,13 @@ on the command line. Enjoy!
 
 
 ## Helpful Links
+
+### The History of Haskell
+
+- [A History of Haskell: Being Lazy With
+  Class](http://haskell.cs.yale.edu/wp-content/uploads/2011/02/history.pdf)
+  is an account of the history of the Haskell language and how it got
+  it's name.
 
 ### Other Lecture Courses
 
