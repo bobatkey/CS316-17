@@ -8,6 +8,8 @@ import Prelude hiding (Monoid, Foldable (..), Functor(..), all, Maybe (..))
 
 -- data [a] = [] | a :: [a]
 
+-}
+
 data Tree a
   = Leaf
   | Node (Tree a) a (Tree a)
@@ -17,27 +19,6 @@ data Maybe a
   = Nothing
   | Just a
   deriving Show
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 {-    PART I : FUNCTORS -}
 
