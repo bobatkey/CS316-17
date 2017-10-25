@@ -45,7 +45,18 @@ interspersed with commentary covering what we talked about.
 - [Lecture 8](lectures/Lec08.hs) (notes in progress) : QuickCheck
 - [Lecture 9](lectures/Lec09.hs) (with notes) : Recursion Schemes
 - [Lecture 10](lectures/Lec10.hs) (notes in progress) : Functors and Containers
-- Lecture 11 : Building Pure Evaluators
+- [Lecture 11](lectures/Lec11.hs) (with notes) : Building Pure Evaluators
+- Lecture 12 : Monads and Applicatives
+- Lecture 13 : Monads we Like
+- Lecture 14 : Parser Combinators
+- Lecture 15 : More Parser Combinators
+- Lecture 16 : The State Monad, and Build-Your-Own Monads
+- Lecture 17 : Traversing Containers
+- Lecture 18 : Interaction
+- Lecture 19 : Infinite Data and Processes
+- Lecture 20 : Parallelism
+- Lecture 21 : Concurrency
+- Lecture 22 : A look at Agda (CS410 propaganda)
 
 ### Tutorials
 
