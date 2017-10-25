@@ -21,12 +21,12 @@ Wk Day Date     Event      Prac  Purpose                                       W
    Fri 20 Oct   Lecture          10. functors and containers                   B&F
 6  Mon 23 Oct   Lecture          11. building pure evaluators                  B           F
                 Lab        3
-   Thu 26 Oct   Tutorial   3     T5. HOP firefight
-   Fri 27 Oct   Lecture          12. applicatives and monads (H12)
+   Thu 26 Oct   Tutorial   3     T5. HOP firefight                             F
+   Fri 27 Oct   Lecture          12. applicatives and monads (H12)             B&F
 7  Mon 30 Oct   Lecture          13. monads we like
                 Lab        3
-   Thu  2 Nov   Tutorial   4     T6. GHOUL unveil
-   Fri  3 Nov   Lecture          14. monadic parsing (H13)
+   Thu  2 Nov   Tutorial   4     T6. GHOUL unveil                                          F
+   Fri  3 Nov   Lecture          14. monadic parsing (H13)                                 F
 8  Mon  6 Nov   Lecture          15. more monadic parsing
                 Deadline   3     2pm
                 Lab-Test   3     HOP test
