@@ -189,8 +189,8 @@ evaluate3 (Print3 s e) = (s ++ s1, n)
 
 {- Evaluating our test program gives us the messages and result we expect:
 
-       λ> evalExpr3 printProg
-       (["Hello"," World"],113)
+       λ> evaluate3 printingProg
+       ("Hello World",113)
 -}
 
 
