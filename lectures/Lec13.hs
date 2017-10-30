@@ -2,7 +2,8 @@ module Lec13 where
 
 {-    LECTURE 13 : MONADS WE LIKE -}
 
-import Prelude hiding (mapM, filterM)
+import Prelude hiding (print, mapM, filterM, Either(..))
+--import Prelude hiding (print, mapM, filterM)
 
 {-
 class Functor f where
@@ -17,9 +18,15 @@ class Applicative f => Monad f where
 -}
 
 ----------------------------------------------------------------------
--- do notation (Bob)
+-- do notation
 
--- Maybe (Bob)
+
+
+
+
+
+
+-- Maybe
 
 {-
 instance Functor Maybe where
@@ -35,33 +42,68 @@ instance Applicative Maybe where
 abort :: Maybe a
 abort = Nothing
 
--- FIXME: an example program
-
-----------------------------------------------------------------------
--- Either (Fred)
-
 
 
 ----------------------------------------------------------------------
--- Lists (Bob)
+-- Either
 
-triples = do x <- [1..10]
-             y <- [1..10]
-             z <- [1..10]
-             if x*x + y*y == z*z then pure (x,y,z) else []
+data Either a b = Left a | Right b
+  deriving (Eq, Show)
 
-triples' = [ (x,y,z) | x <- [1..10], y <- [1..10], z <- [1..10], x*x + y*y == z*z ]
+
+
+
+
+
+
+
+
+
+
+
+lookupWithError :: (Eq a, Show a) => a -> [(a, b)] -> Either String b
+lookupWithError = undefined
+
+fruitNutrition :: [(String, Int)]
+fruitNutrition =
+  [ ("apple", 130)
+  , ("avocado", 250)
+  , ("banana", 110)
+  , ("grapefruit", 120)
+  , ("lemon", 15)
+  , ("orange", 80)
+  , ("pear", 60)
+  , ("watermelon", 1440)
+  ]
+
 
 ----------------------------------------------------------------------
--- Printing (Fred)
+-- Lists
+
+
+
+
+
+triples :: [Int]
+triples = undefined
+
+triples' :: [Int]
+triples' = undefined
+
+----------------------------------------------------------------------
+-- Printing/trace
 
 data Printing a = MkPr String a
 
-print :: String -> Printing ()
-print s = MkPr s ()
+instance Show a => Show (Printing a) where
+  show (MkPr msg a) = msg ++ "\n=====\n\n" ++ (show a)
+
+
+fib :: Integer -> Printing Integer
+fib n = undefined
 
 ----------------------------------------------------------------------
--- Reader (Bob)
+-- Reader
 
 data Reader r a = MkR (r -> a)
 
@@ -73,17 +115,24 @@ data Reader r a = MkR (r -> a)
 
 -- forward ref to State
 
+
 ----------------------------------------------------------------------
--- Fred
+-- Functors vs applicatives vs monads
+
+{-
+functor     - fmap  :: (a -> b)   -> m a -> m b
+applicative - (<*>) :: m (a -> b) -> m a -> m b
+monad       - bind  :: (a -> m b) -> m a -> m b
+-}
+
+----------------------------------------------------------------------
+-- Generic functions
+
 mapM :: Monad m => (a -> m b) -> [a] -> m [b]
-mapM f []     = pure []
-mapM f (x:xs) = do b  <- f x
-                   bs <- mapM f xs
-                   pure (b : bs)
+mapM = undefined
 
 mapA :: Applicative f => (a -> f b) -> [a] -> f [b]
 mapA = undefined
 
 filterM :: Monad m => (a -> m Bool) -> [a] -> m [a]
 filterM = undefined
-
