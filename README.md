@@ -47,7 +47,7 @@ interspersed with commentary covering what we talked about.
 - [Lecture 10](lectures/Lec10.hs) (notes in progress) : Functors and Containers
 - [Lecture 11](lectures/Lec11.hs) (with notes) : Building Pure Evaluators
 - [Lecture 12](lectures/Lec12.hs) (notes in progress) : Monads and Applicatives
-- Lecture 13 : Monads we Like
+- [Lecture 13](lectures/Lec13.hs) (notes in progress) : Monads we Like
 - Lecture 14 : Parser Combinators
 - Lecture 15 : More Parser Combinators
 - Lecture 16 : The State Monad, and Build-Your-Own Monads
