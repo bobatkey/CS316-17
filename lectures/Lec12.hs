@@ -1,12 +1,42 @@
 {-# LANGUAGE FlexibleInstances #-}
+
 module Lec12 where
 
 import Prelude hiding (Applicative (..), Monad (..))
 
-{-    LECTURE 12 : APPLICATIVES AND MONADS -}
+{-    LECTURE 12 : APPLICATIVES AND MONADS
 
-----------------------------------------------------------------------
--- Exceptions
+   In the previous lecture we wrote five different evaluators:
+
+   1. A 'pure' evaluator for expressions with just addition and
+      numbers ('evaluate').
+
+   2. An evaluator for arithmetic expressions that can also throw
+      exceptions ('evaluate2').
+
+   3. An evaluator for arithmetic expressions that can also do
+      printing ('evaluate3').
+
+   4. An evaluator for arithmetic expressions that have a 'Choice'
+      operator, which collects all the possible results
+      ('evaluate4opt3').
+
+   5. An evaluator for arithmetic expressions that have a 'Choice'
+      operator, which collects all the possible results
+      ('evaluate4opt3').
+
+   Looking back at these 'evaluate' functions, we can see that while
+   they all do interesting things with the special features of each of
+   their languages (throw and handle exceptions; printing; making
+   choices), the core features of numbers and addition remained in all
+   of them.
+
+   In this lecture, we will see how to simplify the common parts of
+   all these evaluators, so we can concentrate on the novel parts of
+   each one. We will do this by making use of the fundamental
+   abstractions of "Applicative Functors" and "Monads". -}
+
+{-    PART I : EXCEPTIONS -}
 
 data Expr2
   = Number2 Int
@@ -48,8 +78,7 @@ evaluate2 (Catch2 e1 e2) = case evaluate2 e1 of
                              Nothing -> evaluate2 e2
                              Just n  -> Just n
 
-----------------------------------------------------------------------
--- Printing
+{-   PART II : PRINTING -}
 
 data Expr3
   = Number3 Int
@@ -104,8 +133,9 @@ instance Applicative ((,) String) where
   pure = pureP
   pf <*> pa = apP pf pa
 
-----------------------------------------------------------------------
--- Conditions
+
+{-   PART III : IF-THEN-ELSE / CONDITIONALS -}
+
 data Expr5
   = Number5      Int
   | Add5         Expr5 Expr5
@@ -146,43 +176,3 @@ ma >> mb = ma >>= (\ _ -> mb)
 instance Monad Maybe where
   Nothing  >>= f = Nothing
   (Just a) >>= f = f a
-
-
-----------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-----------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-----------------------------------------------------------------------
