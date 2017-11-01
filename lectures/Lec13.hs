@@ -7,22 +7,29 @@ import Prelude hiding (print, mapM, filterM, Either(..))
    In the previous lecture, we introduced monads as a way to tidy up
    evaluators for languages that had different kinds of side effects
    (exceptions, printing, non-deterministic choice). In this lecture,
-   we look at Monads by themselves, as a way of structuring all sorts
-   of programs.
+   we start to look at Monads by themselves, as a way of structuring
+   all sorts of programs.
 
-   We'll look at:
+   We will concentrate on the use of Monads for doing search-like
+   operations, like looking things up in a database. The database we
+   will use for our examples is the following table of fruits with
+   their calorie content: -}
 
-     1. Several different examples of Monads: 'Maybe', Either, Lists,
-        Writer.
+fruitNutrition :: [(String, Int)]
+fruitNutrition =
+  [ ("apple", 130)
+  , ("avocado", 250)
+  , ("banana", 110)
+  , ("grapefruit", 120)
+  , ("lemon", 15)
+  , ("orange", 80)
+  , ("pear", 60)
+  , ("watermelon", 1440)
+  ]
 
-     2. The idea of 'operations' associated with a monad.
+{- In this lecture, we'll also introduce "do notation", which is a way
+   of making some programs written using monads more readable.
 
-     3. "do notation", a way of making some programs written using
-        monads more readable.
-
-     4. Some programs that can be written for all monads. -}
-
-{-
    Recap:
 
 class Functor f where
@@ -37,7 +44,8 @@ class Applicative f => Monad f where
 
 -}
 
-----------------------------------------------------------------------
+{-   PART I : THE MAYBE MONAD -- EXCEPTIONS / FAILURE -}
+
 
 {-
 instance Functor Maybe where
@@ -56,20 +64,6 @@ instance Monad Maybe where
 
 abort :: Maybe a
 abort = Nothing
-
-
-
-fruitNutrition :: [(String, Int)]
-fruitNutrition =
-  [ ("apple", 130)
-  , ("avocado", 250)
-  , ("banana", 110)
-  , ("grapefruit", 120)
-  , ("lemon", 15)
-  , ("orange", 80)
-  , ("pear", 60)
-  , ("watermelon", 1440)
-  ]
 
 lookupMaybe :: Eq a => a -> [(a,b)] -> Maybe b
 lookupMaybe key [] = abort
@@ -103,8 +97,8 @@ nutritious fruit1 fruit2 = do
 --   let highest = if cal1 > cal2 then fruit1 else fruit2 in
 --   pure (highest ++ " is the most nutritious fruit")
 
-----------------------------------------------------------------------
--- Either
+
+{-    PART 2 : THE EITHER MONAD -- EXCEPTIONS WITH REASONS -}
 
 data Either a b = Left a | Right b
   deriving (Eq, Show)
@@ -133,10 +127,16 @@ instance Monad (Either c) where
   (Left c)  >>= f = (Left c)
   (Right a) >>= f = f a
 
+abortWithMessage :: String -> Either String a
+abortWithMessage s = Left s
+
 lookupEither :: (Show a, Eq a) => a -> [(a,b)] -> Either String b
-lookupEither key table = case lookupMaybe key table of
-                           Nothing -> Left ("key not in table: " ++ (show key))
-                           Just v -> Right v
+lookupEither key table =
+  case lookupMaybe key table of
+    Nothing ->
+      abortWithMessage ("key not in table: " ++ (show key))
+    Just v ->
+      pure v
 
 nutritiousEither :: String -> String -> Either String String
 nutritiousEither fruit1 fruit2 = do
@@ -145,10 +145,17 @@ nutritiousEither fruit1 fruit2 = do
   let highest = if cal1 > cal2 then fruit1 else fruit2
   pure (highest ++ " is the most nutritious fruit")  
 
+{-
+     > nutritiousEither "watermelon" "bapple"
+     Left "key not in table: bapple"
+
+-}
 
 
-----------------------------------------------------------------------
--- Lists
+{-    PART 3 : LISTS, or DOING SEARCH WITH MONADS -}
+
+-- FIXME: change this to use the database, and refer to LINQ and
+-- 'flatMap'.
 
 triples :: [(Integer,Integer,Integer)]
 triples = do
@@ -162,7 +169,7 @@ triples = do
 -- fmap :: (a -> b) -> [a] -> [b]
 
 instance Applicative [] where
-  (<*>) :: [a -> b] -> [a] -> [b]
+  -- (<*>) :: [a -> b] -> [a] -> [b]
   []     <*> xs = []
   (f:fs) <*> xs = fmap f xs ++ (fs <*> xs)
 
@@ -178,46 +185,9 @@ triples' = [ (x,y,z) | x <- [1..10]
                      , z <- [1..10]
                      , x*x + y*y == z*z ]
 
-----------------------------------------------------------------------
--- Printing/trace
-
-data Printing a = MkPr String a
-
-instance Show a => Show (Printing a) where
-  show (MkPr msg a) = msg ++ "\n=====\n\n" ++ (show a)
 
 
-fib :: Integer -> Printing Integer
-fib n = undefined
-
-----------------------------------------------------------------------
--- Reader
-
-data Reader r a = MkR (r -> a)
-
-data Environment = Opt { username    :: String
-                       , isSuperuser :: Bool
-                       }
-  deriving Show
-
-ask :: Reader a a
-ask = MkR (\x -> x)
-
-
--- CP a b from Ex3
-
--- sequ :: CP c a -> (a -> CP c b) -> CP c b
-
--- forward ref to Parser
-
--- forward ref to State
-
--- forward ref to IO
-
-
-
-----------------------------------------------------------------------
--- Functors vs applicatives vs monads
+{-    PART 4 : FUNCTORS vs APPLICATIVES vs MONADS -}
 
 {-
 functor     - fmap  ::   (a ->   b) -> m a -> m b
@@ -226,25 +196,17 @@ monad       - bind  ::   (a -> m b) -> m a -> m b
 -}
 
 
+{-    PART 5 : Other examples of Monads -}
+
+-- CP a b from Ex3
+
+-- sequ :: CP c a -> (a -> CP c b) -> CP c b
+
+-- forward ref to Parser
+
+-- forward ref to Reader, Writer, and State
+
+-- forward ref to IO
 
 
 
-
-
-
-
-
-
-
-
-----------------------------------------------------------------------
--- Generic functions
-
-mapM :: Monad m => (a -> m b) -> [a] -> m [b]
-mapM = undefined
-
-mapA :: Applicative f => (a -> f b) -> [a] -> f [b]
-mapA = undefined
-
-filterM :: Monad m => (a -> m Bool) -> [a] -> m [a]
-filterM = undefined
