@@ -139,6 +139,11 @@ tl (NECons x (Just l)) = neListToList l
 
 {-    PART III : TYPE CLASSES -}
 
+{-
+class Show a where
+  show :: a -> String
+-}
+
 
 instance Show JSON where
   show Null         = "null"
@@ -160,7 +165,7 @@ showTwice :: Show a => a -> String
 showTwice x = show x ++ show x
 
 instance Show a => Show (List a) where
-  show Nil = "Nil"
+  show Nil         = "Nil"
   show (Cons x xs) = "(Cons " ++ show x ++ " " ++ show xs ++ ")"
 
 -- instance Show (List a) => Show (List a) where
@@ -179,11 +184,11 @@ instance Show Natural where
 {- Our own custom type class: -}
 
 class Monoid m where
-  munit :: m
-  mappend :: m -> m -> m
+  base :: m
+  op   :: m -> m -> m
 
 instance Monoid Integer where
-  munit = 0
-  mappend m n = m + n
+  base   = 0
+  op m n = m + n
 
 
