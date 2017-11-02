@@ -72,7 +72,7 @@ assessed exercises.
 - Tutorial 3: Unveiling of [Exercise 3 (HOP)](exercises/Ex3.hs).
 - Tutorial 4: Retrospective on Exercise 2 (FOP).
 - Tutorial 5: Questions about Exercise 3, and working through some [unassessed homework questions](lectures/Tut05-exercises.md).
-- Tutorial 6: Unveiling of [Exercise 4 (GHOUL)](exercises/Ex4.hs).
+- Tutorial 6: Unveiling of [Exercise 4 (GHOUL)](exercises/Ex4.hs). See also [some notes on Ex3](lectures/Tut06.md).
 
 ### One minute papers
 

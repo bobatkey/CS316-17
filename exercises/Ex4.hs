@@ -907,11 +907,11 @@ evalProgram prog =
       like, and how it ought to behave (assuming that it does actually
       log values).
 
-    - Alter the 'eval' and 'evalProgram' functions so that they
-      return '([String], Maybe Val)', where the first part of the pair
-      is the logged messages, and the second is the returned value (or
-      Nothing for failure). You will need to alter the 'Eval' monad to
-      record logging information.
+    - Alter the 'eval' and 'evalProgram' functions so that they return
+      '([String], Either ErrorMessage Val)', where the first part of
+      the pair is the logged messages, and the second is the returned
+      value (or Nothing for failure). You will need to alter the
+      'Eval' monad to record logging information.
 
     - You will need to change the definition of 'runGhoul' so that its
       type is:
