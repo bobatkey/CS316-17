@@ -18,38 +18,29 @@ import Control.Applicative
 
     -- Fritz Ruehr, channeling Dr. Suess.
 
-  Let's turn this poem into a type: -}
+  Let's turn this poem into a type, after a bit of poetic license: -}
 
 newtype Parser a = -- A parser of things is
   MkParser (String ->    -- a function from Strings
-            [( a         -- to lists of pairs of things
-             , String)]) -- and Strings.
+            Maybe ( a         -- to possibly pairs of things
+                  , String)) -- and Strings.
 
-{- The idea is that a parser takes a string as input, and returns a
-   collection of possible ways to turning that string into results as
-   well as whatever is left of the input.
-
-   Here's an example of what we mean by left-over input. If we have a
-   parser that counts the number of 'A's at the start of a string then
-   on the input "AAAA" we would have the following possible results:
-
-     [ (0, "AAAA"), (1, "AAA"), (2, "AA"), (3, "A"), (4, "") ]
+{- The idea is that a parser takes a string as input, and returns either
+   'Nothing' if the string cannot be parsed, or returns 'Just (a, s)'
+   if it is possible to parse the start of the string to get 'a', with
+   the left-over input 's'.
 
    The need to return left-over input may not be obvious at first --
-   if the goal is to count the number of 'A's in the string, then why
-   bother only counting some of them and returning the rest? The
-   answer will come later when we want to run parsers in sequence.
+   if the goal is parse the whole string then why allow left over
+   input? The answer will come later when we want to run parsers in
+   sequence.
 
    For now though, we write a function that runs parsers and extracts
    all the parses that result in no left-overs. We will use this
    function to test our parsers. -}
 
-runParser :: Parser a -> String -> [a]
-runParser (MkParser p) input = [ a | (a,"") <- p input ]
-
-{- 'runParser' has been written using a list comprehension: the pattern
-   match specifies that we are only interested in the results returned
-   by the parser that have no left-over input. -}
+runParser :: Parser a -> String -> Maybe (a, String)
+runParser (MkParser p) input = p input
 
 {------------------------------------------------------------}
 {- Part 1. Parsing one thing or another.                    -}
@@ -61,8 +52,8 @@ runParser (MkParser p) input = [ a | (a,"") <- p input ]
    parses the input "Bob" into the value '()': -}
 bob :: Parser ()
 bob = MkParser recogniseBob
-  where recogniseBob ('B':'o':'b':rest) = [((), rest)]
-        recogniseBob _                  = []
+  where recogniseBob ('B':'o':'b':rest) = Just ((), rest)
+        recogniseBob _                  = Nothing
 
 {- The definition of 'bob' shows two important points about our parsers:
 
@@ -75,23 +66,24 @@ bob = MkParser recogniseBob
    We test this parser by running it on some inputs:
 
        λ> runParser bob "Bob"
-       [()]
+       Just ((),"")
        λ> runParser bob "Ben"
-       []
+       Nothing
        λ> runParser bob "BobBob"
-       []
+       Just ((), "BobBob")
 
    From the first example, we see that parsing success is represented
-   by a non-empty list of results. The second and third examples show
-   how parse failure is represented, either as a result of unexpected
-   input ("Ben") or left-over input at the end ("BobBob").
+   by a non-empty list of results. The second example shows how parse
+   failure is represented, either as a result of unexpected input
+   ("Ben"). The third example shows left-over input at the end ("Bob"
+   is parsed, but "Bob" is left over).
 
    Parsing a single fixed string is not so interesting. Let's write a
    parser that parses the names of the staff members teaching this
    course this semester. First we make a datatype that represents all
    the possible names: -}
 
-data CS316Staff = Ben | Bob | Conor | Fred | James
+data CS316Staff = Ben | Bob | Fred
   deriving (Show, Eq)
 
 {- We could now write a separate parser for each of the strings "Ben",
@@ -111,31 +103,29 @@ data CS316Staff = Ben | Bob | Conor | Fred | James
 string :: String -> Parser ()
 string expected = MkParser (p expected)
   where
-    p :: String -> String -> [((), String)]
-    p []     rest               = [((), rest)]
-    p _      []                 = []
+    p :: String -> String -> Maybe ((), String)
+    p []     rest               = Just ((), rest)
+    p _      []                 = Nothing
     p (e:es) (c:cs) | e == c    = p es cs
-                    | otherwise = []
+                    | otherwise = Nothing
 
 {- We test our new 'parser generator' on a few examples:
 
        λ> runParser (string "Bob") "Bob"
-       [()]
+       Just ((), "")
        λ> runParser (string "Ben") "Ben"
-       [()]
+       Just ((), "")
        λ> runParser (string "Ben") "Bob"
-       []
+       Nothing
        λ> runParser (string "Bob") "Ben"
-       []
+       Nothing
 
    And we can use it to give ourselves a collection of parsers that
    recognise the names of the members of the CS316 team: -}
 
-ben, conor, fred, james :: Parser ()
+ben, fred :: Parser ()
 ben   = string "Ben"
-conor = string "Conor"
 fred  = string "Fred"
-james = string "James"
 
 {- We now have a way of recognising individual names. But what if we
    want to recognise strings that contain one of any of the names
@@ -146,42 +136,41 @@ james = string "James"
 
 orElse :: Parser a -> Parser a -> Parser a
 orElse (MkParser p1) (MkParser p2) =
-  MkParser (\input -> p1 input ++ p2 input)
+  MkParser (\input -> case p1 input of
+                        Nothing -> p2 input
+                        Just (a,s) -> Just (a,s))
 
-{- 'orElse' takes two parsers 'p1' and 'p2' and an input 'input' and
-   applies both parsers to 'input'. It then concatenates the results
-   -- combining the possibilities from the first parser with the
-   possibilities from the second. This is not the only way we could
-   have combined the two results. Another interesting way is to only
-   use the second parser if the first one returns no possible parses
-   (represented by the empty list).
+{- 'orElse' takes two parsers 'p1' and 'p2' and an input 'input'. It
+   first tries 'p1' on 'input'. If that succeeds, then that result is
+   returned. Otherwise, 'p2' is tried and its answer is taken. Notice
+   how this is similar to the exception handling example we looked at
+   in Lecture 11.
 
    Accompanying 'orElse' is the useful 'failure' combinator that
-   represents the parser that always fails. It returns the empty list
-   of parses. -}
+   represents the parser that always fails. It always returns 'Nothing', no matter what the input is. -}
 
 failure :: Parser a
-failure = MkParser (\input -> [])
+failure = MkParser (\input -> Nothing)
 
 {- Using 'orElse' we can build a parser that recognises the names of all
    members of the CS316 team: -}
 
 cs316Staff_v1 :: Parser ()
-cs316Staff_v1 = ben `orElse` bob `orElse` conor `orElse` fred `orElse` james
+cs316Staff_v1 = ben `orElse` bob `orElse` fred
 
 {- Testing 'cs316Staff_v1', we see that it accepts when it should, and
    rejects when it should:
 
        λ> runParser cs316Staff_v1 "Ben"
-       [()]
+       Just ((),"")
        λ> runParser cs316Staff_v1 "Bob"
-       [()]
+       Just ((),"")
        λ> runParser cs316Staff_v1 "Fred"
-       [()]
+       Just ((),"")
        λ> runParser cs316Staff_v1 "Haskell"
-       []
+       Nothing
        λ> runParser cs316Staff_v1 "Simon"
-       []
+       Nothing
 
    But 'cs316Staff_v1' is unsatisfying. When it does recognise
    someone's name, it just returns '()'. It would be nicer if it would
@@ -193,12 +182,12 @@ cs316Staff_v1 = ben `orElse` bob `orElse` conor `orElse` fred `orElse` james
    be a very special purpose fix. A more general fix is to notice that
    this kind of problem fits a pattern that we have seen before:
 
-   1. We have values of type 'Parser ()': ben, bob, conor, fred, james.
+   1. We have values of type 'Parser ()': ben, bob, fred.
 
    2. We want values of type 'Parser CS316Staff'.
 
    3. We can build functions of type '() -> CS316Staff', one for each
-      of 'Ben', 'Bob', 'Conor', 'Fred', and 'James'.
+      of 'Ben', 'Bob', and 'Fred'.
 
    This is exactly the kind of situation that 'Functor' is meant to
    handle: we have a container (in this case a Parser) that contains
@@ -211,13 +200,13 @@ cs316Staff_v1 = ben `orElse` bob `orElse` conor `orElse` fred `orElse` james
 
 instance Functor Parser where
   fmap f (MkParser p) =
-    MkParser (\input -> map (\(a,rest) -> (f a,rest)) (p input))
+    MkParser (\input -> fmap (\(a,rest) -> (f a,rest)) (p input))
 
 {- Using our 'fmap' for 'Parser's, we can turn each of 'ben', 'bob',
    'conor', 'fred', and 'james' into 'Parser's that return the right
    value of CS316Staff on success:-}
 
-ben', bob', conor', fred', james' :: Parser CS316Staff
+ben', bob', fred' :: Parser CS316Staff
 ben' = fmap (\_ -> Ben) ben
 bob' = fmap (\_ -> Bob) bob
 {- We can make these definitions look a little nicer by using two
@@ -236,9 +225,7 @@ bob' = fmap (\_ -> Bob) bob
 
    Using these two shortcuts, we define the informative versions of
    'conor', 'fred', and 'james': -}
-conor' = const Conor <$> conor
 fred'  = const Fred <$> fred
-james' = const James <$> james
 
 {- Chaining together all these parsers now gives us a parser that
    recognises the names of the CS316 team, and tells us which one it
@@ -246,18 +233,16 @@ james' = const James <$> james
 
 cs316Staff :: Parser CS316Staff
 cs316Staff =
-  ben' `orElse` bob' `orElse` conor' `orElse` fred' `orElse` james'
+  ben' `orElse` bob' `orElse` fred'
 
 {- Testing 'cs316Staff' shows it returns the right values:
 
        λ> runParser cs316Staff "Ben"
-       [Ben]
+       Just (Ben, "")
        λ> runParser cs316Staff "Bob"
-       [Bob]
-       λ> runParser cs316Staff "Conor"
-       [Conor]
+       Just (Bob, "")
        λ> runParser cs316Staff "Haskell"
-       []
+       Nothing
 -}
 
 
@@ -273,14 +258,15 @@ cs316Staff =
    string: -}
 
 nothing :: Parser ()
-nothing = MkParser (\input -> [((), input)])
+nothing = MkParser (\input -> Just ((), input))
 
 {- Remember that 'nothing' is different to 'failure'! 'failure' always
    fails to parse anything, while 'nothing' always succeeds, but never
    consumes any input. Effectively, 'nothing' is the parser that only
    recognises the empty input.
 
-   EXERCISE: Write 'nothing' using the 'string' function defined above.
+      EXERCISE: Write 'nothing' using the 'string' function defined
+      above.
 
    Now we can parse nothing, we define a way to parse one thing after
    another. The function 'andThen' takes two parsers 'p1' and 'p2'. It
@@ -292,15 +278,20 @@ nothing = MkParser (\input -> [((), input)])
 
 andThen :: Parser a -> Parser b -> Parser (a,b)
 andThen (MkParser p1) (MkParser p2) =
-  MkParser (\input -> [ ((a,b), rest) | (a,rest0) <- p1 input
-                                      , (b,rest)  <- p2 rest0 ])
+  MkParser (\input -> case p1 input of
+                        Nothing -> Nothing
+                        Just (a, input2) ->
+                          case p2 input2 of
+                            Nothing -> Nothing
+                            Just (b, rest) ->
+                              Just ((a,b), rest))
 
 {- Observe the difference in how the input is handled in 'andThen'
    compared to 'orElse'. In 'orElse', the same input is given to both
-   parsers, and their outputs are concatenated. In 'andThen', the
-   input is "threaded through" the parsers: it is first given to 'p1',
-   and 'p1's output is given to 'p1'. This "threading" behaviour makes
-   'Parser's very similar to the ST state monad in Lecture 12.
+   parsers. In 'andThen', the input is "threaded through" the parsers:
+   it is first given to 'p1', and 'p1's output is given to 'p1'. This
+   "threading" behaviour makes 'Parser's very similar to the state
+   monad we will see in Lecture 16.
 
    Using 'andThen', we can define a parser that parses:
      - a name of a CS316 staff member
@@ -346,8 +337,8 @@ instance Applicative Parser where
    applies 'f' to 'a'. The sequencing of 'pf' and 'pa' are handled by
    'andThen'.
 
-   EXERCISE: Rewrite the 'pure' and '<*>' definitions directly,
-   instead of using 'nothing' and 'andThen'.
+      EXERCISE: Rewrite the 'pure' and '<*>' definitions directly,
+      instead of using 'nothing' and 'andThen'.
 
    Using the Applicative interface, we can rewrite the 'action' part
    of our lecture team parser to be a little neater: -}
@@ -358,10 +349,10 @@ lectureTeam =
 
 {- Testing:
 
-       λ> runParser lectureTeam "Bob&Conor"
-       [(Bob,Conor)]
-       λ> runParser lectureTeam "Fred&Conor"
-       [(Fred,Conor)]
+       λ> runParser lectureTeam "Bob&Fred"
+       Just ((Bob,Conor),"")
+       λ> runParser lectureTeam "Fred&Fred"
+       Just ((Fred,Fred),"")
 
    Defining an Applicative instance for 'Parser' means that we can
    also give the 'failure' and 'orElse' parsers above more standard
@@ -402,10 +393,10 @@ isProperPair (s1, s2) = s1 /= s2
    names), and based on that input we want to make a decision about
    what to do next: either return the pair, or to fail.
 
-   This general pattern -- do task A, and then select a task B to do
-   based on the result of doing task A, is the precise pattern
-   captured by the Monad type class. 'Monad' extends 'Applicative'
-   with the additional function:
+   As we saw in Lectures 12 and 13, this general pattern -- do task A,
+   and then select a task B to do based on the result of doing task A
+   -- is the precise pattern captured by the Monad type class. 'Monad'
+   extends 'Applicative' with the additional function:
 
      (>>=) :: m a -> (a -> m b) -> m b
 
@@ -417,9 +408,11 @@ isProperPair (s1, s2) = s1 /= s2
 
 instance Monad Parser where
   MkParser p >>= f =
-    MkParser (\input -> [ (b, rest) | (a,rest0) <- p input
-                                    , let MkParser p2 = f a
-                                    , (b, rest) <- p2 rest0 ])
+    MkParser (\input -> case p input of
+                          Nothing -> Nothing
+                          Just (a,rest) ->
+                            let MkParser p2 = f a in
+                              p2 rest)
 
 {- It is instructive to compare this definition to 'andThen' defined
    above. The similarity is that the input is "threaded" through: the
@@ -450,14 +443,21 @@ properLectureTeam =
    4. Sequence: 'pure' and '<*>' (and also 'nothing' and 'andThen')
    5. Allow previous results to affect future parsers: '>>='.
 
-   We will need one final primitive parser: the one that just reads a
-   single character from the input, and returns it as its parse
-   result. -}
+   We will need two final primitive parsers. The first checks that we
+   have reached the end of the input: -}
+
+eoi :: Parser ()
+eoi = MkParser (\input -> case input of
+                            "" -> Just ((),"")
+                            _  -> Nothing)
+
+{- The second reads a single character from the input, and returns it as
+   its parse result. -}
 
 char :: Parser Char
 char = MkParser parseChar
-  where parseChar ""       = []
-        parseChar (c:rest) = [(c,rest)]
+  where parseChar ""       = Nothing
+        parseChar (c:rest) = Just (c,rest)
 
 {- The 'char' parser allows us to read the input one character at a
    time. Combined with the other combinators, we can now build more
@@ -523,15 +523,17 @@ number = foldl (\acc d -> acc*10 + d) 0 <$> digits
 {- Let's test this parser to see if it works:
 
        λ> runParser number "10"
-       [10]
+       Just (10,"")
        λ> runParser number "0"
-       [0]
+       Just (0,"")
        λ> runParser number "7986213"
-       [7986213]
+       Just (7986213, "")
        λ> runParser number ""
-       []
+       Nothing
        λ> runParser number "abc"
-       []
+       Nothing
+       λ> runParser number "1abc"
+       Just (1,"abc")
 
    EXERCISE: Rewrite 'string' in terms of 'char', 'many', and (>>=). -}
 
@@ -629,3 +631,14 @@ expr =  Number <$> number
 
    In the next lecture, we will talk about how to write a parser for
    expressions that does not require so many brackets. -}
+
+expr_v3 :: Parser Expr
+expr_v3 =  Add <$> base_v3 <* string "+" <*> expr_v3
+       <|> base_v3
+
+base_v3 :: Parser Expr
+base_v3 = Number <$> number
+       <|> parens (expr_v3)
+
+
+parens p = string "(" *> p <* string ")"
