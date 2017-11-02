@@ -48,8 +48,8 @@ interspersed with commentary covering what we talked about.
 - [Lecture 11](lectures/Lec11.hs) (with notes) : Building Pure Evaluators
 - [Lecture 12](lectures/Lec12.hs) (with notes) : Monads and Applicatives
 - [Lecture 13](lectures/Lec13.hs) (with notes) : Monads we Like
-- Lecture 14 : Parser Combinators
-- Lecture 15 : More Parser Combinators
+- [Lecture 14](lectures/Lec14.hs) (with preliminary notes) : Parser Combinators
+- [Lecture 15](lectures/Lec15.hs) (with preliminary notes) : More Parser Combinators
 - Lecture 16 : The State Monad, and Build-Your-Own Monads
 - Lecture 17 : Traversing Containers
 - Lecture 18 : Interaction
