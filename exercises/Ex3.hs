@@ -287,10 +287,10 @@ type Extra a b = () -- REPLACE THIS
 recTreeFromIterTree :: b -> ((Tree a,b) -> a -> (Tree a,b) -> b) -> Tree a -> b
 recTreeFromIterTree n l t = snd (iterTree leaf node t)
   where
-    leaf :: (Extra a b, b)
+    -- leaf :: (Extra a b, b)
     leaf = undefined
 
-    node :: (Extra a b, b) -> a -> (Extra a b, b) -> (Extra a b, b)
+    -- node :: (Extra a b, b) -> a -> (Extra a b, b) -> (Extra a b, b)
     node = undefined
 
 {- 3 marks -}
