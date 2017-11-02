@@ -72,6 +72,7 @@ assessed exercises.
 - Tutorial 3: Unveiling of [Exercise 3 (HOP)](exercises/Ex3.hs).
 - Tutorial 4: Retrospective on Exercise 2 (FOP).
 - Tutorial 5: Questions about Exercise 3, and working through some [unassessed homework questions](lectures/Tut05-exercises.md).
+- Tutorial 6: Unveiling of [Exercise 4 (GHOUL)](exercises/Ex4.hs).
 
 ### One minute papers
 
@@ -104,9 +105,9 @@ split between the four exercises is shown below:
   October (week 4), and the final deadline and test are on Monday 6th
   November (week 8).
 
-- Exercise 4 (35%) : GHOUL. This will be released on Thursday 2nd
-  November (week 7), and the final deadline and test are on Monday
-  27th November (week 11).
+- Exercise 4 (35%) : [GHOUL](exercises/Ex4.hs). This will be released
+  on Thursday 2nd November (week 7), and the final deadline and test
+  are on Monday 27th November (week 11).
 
 After each of the exercises has been marked, we will email you your
 marks, and also put them on the [Marx
