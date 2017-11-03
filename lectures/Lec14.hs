@@ -380,7 +380,7 @@ isProperPair :: (CS316Staff, CS316Staff) -> Bool
 isProperPair (s1, s2) = s1 /= s2
 
 {- Now our problem is use 'isProperPair' to filter out pairs that are
-   not proper. One 'bruteforce' way of doing this is to exploit our
+   not proper. One "brute force" way of doing this is to exploit our
    representation of parsers as functions that return lists of
    results, and write a function with type:
 
@@ -428,9 +428,25 @@ instance Monad Parser where
    staff members with no repetitions: -}
 
 properLectureTeam :: Parser (CS316Staff, CS316Staff)
-properLectureTeam =
-  lectureTeam >>= \pair ->
+properLectureTeam = do
+  pair <- lectureTeam
   if isProperPair pair then pure pair else failure
+
+{- Alternatively, we can write this out without using the original
+   'lectureTeam' parser, and parse the components of a pair
+   separately. This lets us see how we can use "do notation" as a
+   convenient way of writing parsers. -}
+
+properLectureTeam2 :: Parser (CS316Staff, CS316Staff)
+properLectureTeam2 = do
+  s1 <- cs316Staff
+  string "&"
+  s2 <- cs316Staff
+  if isProperPair (s1,s2) then
+    return (s1, s2)
+  else
+    empty
+    
 
 {------------------------------------------------------------}
 {- Part 4. Parsing Numbers                                  -}
@@ -537,108 +553,3 @@ number = foldl (\acc d -> acc*10 + d) 0 <$> digits
 
    EXERCISE: Rewrite 'string' in terms of 'char', 'many', and (>>=). -}
 
-{------------------------------------------------------------}
-{- Part 5. Parsing Expressions                              -}
-
-{- Parsing numbers and strings is all very well, but Exercise 4 is going
-   to be about parsing a programming language. Let's start small by
-   writing a parser for our little language of numbers and addition: -}
-
-data Expr
-  = Number Int
-  | Add    Expr Expr
-  deriving Show
-
-{- The final goal is to parse strings that look like:
-
-       "2+(4+5)+1"
-
-   into the corresponding value:
-
-       Add (Number 2) (Add (Add (Number 4) (Number 5)) (Number 1))
-
-   where we have resolved the ambiguity caused by a lack of
-   parentheses by nesting to the right.
-
-   Thinking about this as a grammar, our first attempt might be:
-
-      E ::= n
-          | E '+' E
-          | '(' E ')'
-
-   (ignoring direction of nesting for now). We can attempt to
-   translate this directly into our 'Parser's as follows: -}
-
-expr_v1 :: Parser Expr
-expr_v1 =  (\n -> Number n)        <$> number
-       <|> (\e1 _ e2 -> Add e1 e2) <$> expr_v1 <*> string "+" <*> expr_v1
-       <|> (\_ e _ -> e)           <$> string "(" <*> expr_v1 <*> string ")"
-
-{- This definition looks very elegant, and apart from the additional
-   action parts to translate the parse results into 'Expr' trees, it
-   looks very close to the grammar. Unforunately, it doesn't work:
-
-       λ> runParser expr_v1 "2+(4+5)+1"
-       *** Exception: stack overflow
-
-   Even when parsing just a single number, we nearly get somewhere,
-   but then it fails:
-
-       λ> runParser expr_v1 "1"
-       [Number 1*** Exception: stack overflow
-
-   The problem is that the original grammar contains /left
-   recursion/. The second case for 'E' immediately refers to 'E' again
-   (reading left-to-right), without consuming any symbols. In terms of
-   our definition of 'expr_v1' this amounts to the following sequence
-   of decisions made:
-
-   1. To parse an 'expr_v1', there are three choices.
-
-   2. The first choice is a number, which succeeds, but returns
-   leftovers.
-
-   3. The second choice is to parse "E '+' E", so we call 'expr_v1' to
-   parse an 'E', but this means we go back to (1) again, with the same
-   input.
-
-   Hence, we get stuck in a loop and eventually crash with a stack
-   overflow exception.
-
-   The fix to this problem is to make sure that there are no calls
-   back to the same parser without making progress through the
-   input. A crude way of ensuring this is to demand that all
-   expressions are completely bracketed. So we will only accept input
-   like:
-
-       "(2+((4+5)+1))"
-
-   We do this like so, asking that each '+' expression is wrapped in
-   parentheses: -}
-
-
-expr :: Parser Expr
-expr =  Number <$> number
-    <|>
-        (\_ e1 _ e2 _ -> Add e1 e2) <$> string "(" <*> expr <*> string "+" <*> expr <*> string ")"
-
-{- Now we have:
-
-       λ> runParser expr "(2+((4+5)+1))"
-       [Add (Number 2) (Add (Add (Number 4) (Number 5)) (Number 1))]
-
-   as required.
-
-   In the next lecture, we will talk about how to write a parser for
-   expressions that does not require so many brackets. -}
-
-expr_v3 :: Parser Expr
-expr_v3 =  Add <$> base_v3 <* string "+" <*> expr_v3
-       <|> base_v3
-
-base_v3 :: Parser Expr
-base_v3 = Number <$> number
-       <|> parens (expr_v3)
-
-
-parens p = string "(" *> p <* string ")"
