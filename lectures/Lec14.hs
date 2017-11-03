@@ -512,7 +512,7 @@ digit =
      some p = (\x xs -> x:xs) <$> p <*> some p
               <|>
               (\x -> [x])     <$> p
-              
+
    which makes it clear that there is a choice between one copy of
    'p', which results in a singleton list (remember that the 'action'
    of a rule is written to the left of the '<$>'), and a copy of 'p'
