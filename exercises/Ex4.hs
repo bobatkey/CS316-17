@@ -28,7 +28,7 @@ import Data.List
    so we'll need this info to give you your mark. -}
 
 myName :: String
-myName = ["Harry", " ", "Palmer"] >>= id
+myName = ["HaRRy", " ", "pAlmER"] >>= (\ (c:cs) -> toUpper c : map toLower cs)
 
 {- 1 MARK -}
 
