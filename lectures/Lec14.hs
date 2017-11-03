@@ -502,16 +502,17 @@ digit =
    be given a concise, if cryptic definition in terms of the
    Applicative and Alternative combinators:
 
-     some p = ((:[]) <$> p) <|> ((:) <$> p <*> some p)
+     some p =  (:)   <$> p <*> some p
+           <|> (:[]) <$> p
 
    Haskell sometimes has a reputation for unreadable use of infix
    operators and puncutation, and this definition is one of the worst
    culprits. A more perspicious way of defining this function is:
 
-     some p = (\x -> [x]) <$> p
+     some p = (\x xs -> x:xs) <$> p <*> some p
               <|>
-              (\x xs -> x:xs) <$> p <*> some p
-
+              (\x -> [x])     <$> p
+              
    which makes it clear that there is a choice between one copy of
    'p', which results in a singleton list (remember that the 'action'
    of a rule is written to the left of the '<$>'), and a copy of 'p'
