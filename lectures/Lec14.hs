@@ -57,11 +57,11 @@ bob = MkParser recogniseBob
 
 {- The definition of 'bob' shows two important points about our parsers:
 
-   1. We signal a parse success by returning a list with something in
-   it. In this case we return the value '()' as the result of parsing
-   'Bob', and the 'rest' of the input.
+   1. We signal a parse success by returning 'Just' something. In this
+   case we return the value '()' as the result of parsing 'Bob', and
+   the 'rest' of the input.
 
-   2. We signal failure to parse by returning the empty list '[]'.
+   2. We signal failure to parse by returning 'Nothing'.
 
    We test this parser by running it on some inputs:
 
@@ -70,13 +70,13 @@ bob = MkParser recogniseBob
        λ> runParser bob "Ben"
        Nothing
        λ> runParser bob "BobBob"
-       Just ((), "BobBob")
+       Just ((), "Bob")
 
    From the first example, we see that parsing success is represented
-   by a non-empty list of results. The second example shows how parse
-   failure is represented, either as a result of unexpected input
-   ("Ben"). The third example shows left-over input at the end ("Bob"
-   is parsed, but "Bob" is left over).
+   by 'Just' with a result. The second example shows how parse failure
+   is represented, either as a result of unexpected input ("Ben"). The
+   third example shows left-over input at the end ("Bob" is parsed,
+   but "Bob" is left over).
 
    Parsing a single fixed string is not so interesting. Let's write a
    parser that parses the names of the staff members teaching this
@@ -86,13 +86,13 @@ bob = MkParser recogniseBob
 data CS316Staff = Ben | Bob | Fred
   deriving (Show, Eq)
 
-{- We could now write a separate parser for each of the strings "Ben",
-   "Conor", "Fred", and "James" in the same style as we did for "Bob"
-   above. But this would lead to lot of repeated work. The parser
-   'bob' above represented a common pattern when writing a parser: the
-   case when we want to match the input against an expected
-   string. This kind of pattern is common when parsing keywords in a
-   programming language, for example.
+{- We could now write a separate parser for each of the strings "Ben"
+   and "Fred" in the same style as we did for "Bob" above. But this
+   would lead to lot of repeated work. The parser 'bob' above
+   represented a common pattern when writing a parser: the case when
+   we want to match the input against an expected string. This kind of
+   pattern is common when parsing keywords in a programming language,
+   for example.
 
    We can capture this pattern with the following function
    'string'. The parser 'string x' is a parser that recognises the
@@ -129,10 +129,9 @@ fred  = string "Fred"
 
 {- We now have a way of recognising individual names. But what if we
    want to recognise strings that contain one of any of the names
-   "Bob", "Ben", "Conor", "Fred", or "James"? We need a way of putting
-   parsers together that means "try the input on the first one, and
-   then try the same input on the second one". We do this with an
-   'orElse' combinator: -}
+   "Bob", "Ben", or "Fred"? We need a way of putting parsers together
+   that means "try the input on the first one, and then try the same
+   input on the second one". We do this with an 'orElse' combinator: -}
 
 orElse :: Parser a -> Parser a -> Parser a
 orElse (MkParser p1) (MkParser p2) =
@@ -147,7 +146,8 @@ orElse (MkParser p1) (MkParser p2) =
    in Lecture 11.
 
    Accompanying 'orElse' is the useful 'failure' combinator that
-   represents the parser that always fails. It always returns 'Nothing', no matter what the input is. -}
+   represents the parser that always fails. It always returns
+   'Nothing', no matter what the input is. -}
 
 failure :: Parser a
 failure = MkParser (\input -> Nothing)
@@ -202,9 +202,9 @@ instance Functor Parser where
   fmap f (MkParser p) =
     MkParser (\input -> fmap (\(a,rest) -> (f a,rest)) (p input))
 
-{- Using our 'fmap' for 'Parser's, we can turn each of 'ben', 'bob',
-   'conor', 'fred', and 'james' into 'Parser's that return the right
-   value of CS316Staff on success:-}
+{- Using our 'fmap' for 'Parser's, we can turn each of 'ben', 'bob', and
+   'fred' into 'Parser's that return the right value of CS316Staff on
+   success:-}
 
 ben', bob', fred' :: Parser CS316Staff
 ben' = fmap (\_ -> Ben) ben
@@ -224,7 +224,7 @@ bob' = fmap (\_ -> Bob) bob
         little like function application.
 
    Using these two shortcuts, we define the informative versions of
-   'conor', 'fred', and 'james': -}
+   'fred': -}
 fred'  = const Fred <$> fred
 
 {- Chaining together all these parsers now gives us a parser that
@@ -350,7 +350,7 @@ lectureTeam =
 {- Testing:
 
        λ> runParser lectureTeam "Bob&Fred"
-       Just ((Bob,Conor),"")
+       Just ((Bob,Fred),"")
        λ> runParser lectureTeam "Fred&Fred"
        Just ((Fred,Fred),"")
 
@@ -460,12 +460,12 @@ properLectureTeam2 = do
    5. Allow previous results to affect future parsers: '>>='.
 
    We will need two final primitive parsers. The first checks that we
-   have reached the end of the input: -}
+   have reached the end of the input ("eoi"): -}
 
 eoi :: Parser ()
-eoi = MkParser (\input -> case input of
-                            "" -> Just ((),"")
-                            _  -> Nothing)
+eoi = MkParser checkEOI
+  where checkEOI "" = Just ((), "")
+        checkEOI _  = Nothing
 
 {- The second reads a single character from the input, and returns it as
    its parse result. -}
@@ -551,6 +551,5 @@ number = foldl (\acc d -> acc*10 + d) 0 <$> digits
        Nothing
        λ> runParser number "1abc"
        Just (1,"abc")
-
-   EXERCISE: Rewrite 'string' in terms of 'char', 'many', and (>>=). -}
+-}
 
