@@ -6,26 +6,26 @@ import Data.Char
 
 {- LECTURE 15 : MORE MONADIC PARSING -}
 
-{- Parsers of things are functions from strings to lists of pairs of
-   things and strings: -}
+{- Parsers of things are functions from strings to the possibility of
+   pairs of things and strings: -}
 
-newtype Parser a = MkParser (String -> [(a,String)])
+newtype Parser a = MkParser (String -> Maybe (a,String))
 
 
 
-runParser :: Parser a -> String -> [a]
-runParser (MkParser p) input = [ a | (a,"") <- p input ]
+runParser :: Parser a -> String -> Maybe (a, String)
+runParser (MkParser p) input = p input
 
 instance Monad Parser where
   -- return :: a -> Parser a
-  return x = MkParser (\input -> [(x,input)])
+  return x = MkParser (\input -> Just (x, input))
 
   -- (>>=) :: Parser a -> (a -> Parser b) -> Parser b
   MkParser p >>= f =
-    MkParser (\input -> [ (b,rest) | (a,rest0) <- p input
-                                   , let MkParser p2 = f a
-                                   , (b,rest) <- p2 rest0
-                                   ])
+    MkParser (\input -> do
+                 (a, input2) <- p input
+                 let MkParser p2 = f a
+                 p2 input2)
 
 instance Functor Parser where
   -- fmap :: (a -> b) -> Parser a -> Parser b
@@ -44,15 +44,20 @@ instance Alternative Parser where
 
   -- (<|>) :: Parser a -> Parser a -> Parser a
   MkParser p1 <|> MkParser p2 =
-    MkParser (\input -> p1 input ++ p2 input)
+    MkParser (\input -> p1 input <|> p2 input)
 
 {- So far, we haven't yet defined anything that actually consumes any
    input. We do this by defining the 'char' parser. This reads a
    single character from the input, or fails if that is not possible. -}
 char :: Parser Char
 char = MkParser (\input -> case input of
-                             []     -> []
-                             (c:cs) -> [(c,cs)])
+                             ""   -> Nothing
+                             c:cs -> Just (c,cs))
+
+eoi :: Parser ()
+eoi = MkParser (\input -> case input of
+                            ""  -> Just ((), "")
+                            _:_ -> Nothing)
 
 {--------------------------------------------------------------------}
 {- Part 1. Building parsers                                         -}
@@ -66,6 +71,7 @@ char = MkParser (\input -> case input of
      2. The Applicative interface (pure, <*>)
      3. The Alternative interface (empty, <|>)
      4. 'char'
+     5. 'eoi'
 
    And, of course, to actually use parsers we need the 'runParser'
    function.
@@ -86,12 +92,12 @@ satisfies predicate =
   char >>= \c ->
   if predicate c then return c else empty
 
-{- Examples: (FIXME: lists of chars being pretty printed as strings!)
+{- Examples:
 
        λ> runParser (satisfies (== '(')) "("
-       "("
+       Just ('(', "")
        λ> runParser (satisfies (== '(')) ")"
-       ""
+       Nothing
 
    Often, we will want to ignore the results of a parser. We do this
    using the 'ignore' function: -}
@@ -117,8 +123,8 @@ isChar c = ignore (satisfies (==c))
 
 -- zero or more
 many :: Parser a -> Parser [a]
-many p =  pure []
-      <|> ((:) <$> p) <*> many p
+many p =  (:)     <$> p <*> many p
+      <|> pure []
 
 -- fmap f s = pure f <*> s
 --          = f <$> s
@@ -126,9 +132,9 @@ many p =  pure []
 {- Examples using 'many':
 
      λ> runParser (many space) ""
-     [[]]
+     Just ([], "")
      λ> runParser (many space) "    "
-     [[(),(),(),()]]
+     Just ([(),(),(),()], "")
      λ> runParser (many char) "    "
      ["    "]
      λ> runParser (many char) " sdhgsjfhksdh   "
@@ -150,16 +156,16 @@ some p = (:) <$> p <*> many p
 
 -- literal strings
 string :: String -> Parser ()
-string s =
-  many char >>= \inputString ->
-  if inputString == s then return () else empty
+string []     = pure ()
+string (e:es) = (\_ _ -> ()) <$> isChar e <*> string es
 
 -- things separated by other things
 sepBy :: Parser () -> Parser a -> Parser [a]
 sepBy separator thing =
-      pure []
-  <|> (:) <$> thing
+      (:) <$> thing
           <*> many (const id <$> separator <*> thing)
+  <|> pure []
+
 
   -- 1,2,3
   -- a,b,c
@@ -212,11 +218,12 @@ data Expr
   | Add    Expr Expr
   deriving Show
 
-{-
-   A grammar for expressions:
+-- FIXME: use a proper number parser
 
-    E ::= n
-        | E '+' E
+{- A grammar for expressions:
+
+    E ::= E '+' E
+        | n
 
    Unfortunately, this grammar is ambiguous. The string:
 
@@ -233,12 +240,11 @@ data Expr
    directly, we will fail: -}
 
 expr_v1 :: Parser Expr
-expr_v1 =  Number                  <$> (const 1 <$> some (satisfies isDigit))
-       <|> (\e1 _ e2 -> Add e1 e2) <$> expr_v1 <*> isChar '+' <*> expr_v1
-
+expr_v1 =  (\e1 _ e2 -> Add e1 e2) <$> expr_v1 <*> isChar '+' <*> expr_v1
+       <|> Number                  <$> (const 1 <$> some (satisfies isDigit))
 {-
      λ> runParser expr_v1 "1+1"
-     [Add (Number 1) (Number 1)*** Exception: stack overflow
+     *** Exception: stack overflow
 -}
 
 {- One way to fix this is to just demand that there are always
@@ -250,7 +256,7 @@ expr_v1 =  Number                  <$> (const 1 <$> some (satisfies isDigit))
 -}
 
 expr_v2 :: Parser Expr
-expr_v2 = Number                           <$> (const 1 <$> some (satisfies isDigit))
+expr_v2 = Number <$> (const 1 <$> some (satisfies isDigit))
        <|> parens ((\e1 _ e2 -> Add e1 e2) <$> expr_v2 <*> isChar '+' <*> expr_v2)
 
 {-
@@ -299,38 +305,3 @@ base_v3 = Number <$> (const 1 <$> some (satisfies isDigit))
        λ> runParser expr_v3 "(1+1)+1"
        [Add (Add (Number 1) (Number 1)) (Number 1)]
 -}
-
-
-{--------------------------------------------------------------------}
-{- Part 3. Do-notation                                              -}
-{--------------------------------------------------------------------}
-
-{- Another way of writing 'satisfies' -}
-
--- do x <- f; c  ==> f >>= \x -> c
-
-satisfies2 :: (Char -> Char -> Bool) -> Parser Char
-satisfies2 predicate =
-  do c  <- char
-     c2 <- char
-     guard (predicate c c2)
-     return c
-{-
-  char >>= \c ->
-  char >>= \c2 ->
-  if predicate c c2 then return c else empty
--}
-
-
--- Every monad supports 'do' notation, including the list monad:
-
-squares :: [Int]
-squares = do
-  n1 <- [1..10]
-  n2 <- [1..10]
-  guard (n1 >= 5)
-  return (n1 * n2)
-
---   [ n1 * n2 | n1 <- [1..10], n2 <- [1..10], n1 >= 5 ]
-
-
