@@ -92,8 +92,16 @@ sumFromIterRight_eq_sum xs = sumFromIterRight xs == sum xs
 {- 1 mark -}
 
 {----------------------------------------------------------------------}
-{- 3.4 WILL BE REVEALED IN THE TEST                                   -}
-{- 2 marks                                                            -}
+{- 3.4 filterFromIterRight (TEST)                                     -}
+
+{- Define the 'filter' function for lists using 'iterRight'. Do not use
+   explicit recursion -- if you write 'filterFromIterRight' on the
+   right hand side of the equals sign here, you are doing it wrong. -}
+
+filterFromIterRight :: (a -> Bool) -> [a] -> [a]
+filterFromIterRight = undefined
+
+{- 2 marks -}
 {----------------------------------------------------------------------}
 
 {- 3.5 The reverse function reverses a list. For example:
@@ -186,7 +194,13 @@ iterRightFromRecList = undefined
 -}
 
 {----------------------------------------------------------------------}
-{- 3.9 WILL BE REVEALED IN THE TEST                                   -}
+{- 3.9 recListFromIterRight (TEST)                                    -}
+
+{- Define 'recList' in terms of 'iterRight'. -}
+
+recListFromIterRight :: (a -> ([a], b) -> b) -> b -> [a] -> b
+recListFromIterRight = undefined
+
 {- 3 marks -}
 {----------------------------------------------------------------------}
 
@@ -259,7 +273,16 @@ recTree = undefined
 {- 2 marks -}
 
 {----------------------------------------------------------------------}
-{- 3.14 WILL BE REVEALED IN THE TEST                                  -}
+{- 3.14 Properties of sums and flattens (TEST)                        -}
+
+{- Write a QuickCheck property (see Lecture 8) that relates the
+   functions sumTree, flatten, and sumFromIterRight that you wrote
+   above. To get full marks, you should use all of these functions to
+   prove something that is true for all trees of 'Int's. -}
+
+sumFlatten_prop :: Tree Int -> Bool
+sumFlatten_prop = undefined -- write a property here
+
 {- 1 mark -}
 {----------------------------------------------------------------------}
 
@@ -296,7 +319,24 @@ recTreeFromIterTree n l t = snd (iterTree leaf node t)
 {- 3 marks -}
 
 {----------------------------------------------------------------------}
-{- 3.17 WILL BE REVEALED IN THE TEST                                  -}
+{- 3.17 Trees full of functions (TEST)                                -}
+
+{- Define 'applyTree', a function that takes a binary tree of binary
+   functions, and a value to use for the leaves, and returns the value
+   computed by recursively applying the function at each node to the
+   values computed for its two sub-trees.
+
+   For example:
+
+     applyTree (Node (Node Leaf (+) Leaf) (*) (Node Leaf (+) Leaf)) 1 = 4
+
+   because: (1 + 1) * (1 + 1) = 2 * 2 = 4.
+
+   Define your 'applyTree' using 'iterTree'. -}
+
+applyTree :: Tree (Int -> Int -> Int) -> Int -> Int
+applyTree = undefined
+
 {- 2 marks -}
 {----------------------------------------------------------------------}
 
@@ -485,8 +525,35 @@ addInputs2 = undefined
 {- 1 mark -}
 
 {----------------------------------------------------------------------}
-{- 3.26 WILL BE REVEALED IN THE TEST                                  -}
-{- 4 marks -}
+{- 3.26 Translation of processes (TEST) -}
+
+{- Sometimes, we might have a process that sends and receives values of
+   type 'x', but we want a process that sends and receives values of
+   type 'y'. Define a function 'translate' that takes two translation
+   functions, one from 'x's to 'y's and one from 'y's to 'Maybe x's,
+   and converts processes that communicate using 'x's into processes
+   that communicate using 'y's. If the translation fails (because the
+   second function returns 'Nothing'), then the process should Abort. -}
+
+translate :: (x -> y) -> (y -> Maybe x) -> CP x a -> CP y a
+translate = undefined
+
+{- 3 marks -}
+
+{- 3.27 Below we have defined functions stringToMaybeInt and intToString
+   that translate back and forth between strings and integers. Use
+   these functions and translate to define 'intsToStrings'. -}
+
+stringToInt :: String -> Maybe Int
+stringToInt = readMaybe
+
+intToString :: Int -> String
+intToString = show
+
+intsToStrings :: CP Int a -> CP String a
+intsToStrings = undefined
+
+{- 1 mark -}
 {----------------------------------------------------------------------}
 
 {- 3.28 Piping one process's output into another input. Just as for
@@ -536,6 +603,64 @@ knockKnocker who clarification =
 {- 2 marks -}
 
 {----------------------------------------------------------------------}
-{- 3.30 - 3.32 WILL BE REVEALED IN THE TEST                           -}
-{- 8 marks -}
+{- 3.30 Expected Inputs (TEST)                                        -}
+
+{- Define a function 'expectInput' that is given an expected input and
+   returns a process that takes an input. If the input is as expected,
+   then it returns '()' and otherwise it aborts. You may have already
+   done this if you followed the hint above. -}
+
+expectInput :: Eq a => a -> CP a ()
+expectInput = undefined
+
+{- 2 marks -}
+
+{- 3.31 Write the other side of the "Knock Knock" protocol. The protocol
+   to be followed must match the 'knockKnocker's protocol:
+
+   1. You expect to receive 'Knock, Knock!"
+   2. Your process must output "Who's there?"
+   3. You must take any input 'who'
+   4. Your process must respond with 'who ++ " who?"
+   5. You must take any input as the punchline
+   6. Your process must respond with "*LOL*". -}
+
+knockKnockee :: CP String ()
+knockKnockee =
+  undefined
+
+{- 2 marks -}
+
+{- 3.32 Chatting (TEST)
+
+   Write a function that records the chat between two processes,
+   labelling each message that is sent. If either process Ends or
+   Aborts, or one side is not listening when the other is sending,
+   then the chat log finishes (but the messages successfully sent up
+   to that point are returned).
+
+   For example:
+
+       chat ("A", Output "X" (Input (\_ -> End ())))
+            ("B", Input (\_ -> Output "Y" (End ())))
+     =
+       [("A", "X"), ("B", "Y")]
+
+   and
+
+   chat ("A",knockKnocker "Euripedes" "trousers, you pay for these trousers!")
+        ("B",knockKnockee)
+     =
+       [("A","Knock, Knock!"),
+        ("B","Who's there?"),
+        ("A","Euripedes"),
+        ("B","Euripedes who?"),
+        ("A","Euripedes trousers, you pay for these trousers!"),
+        ("B","*LOL*")]
+-}
+
+chat :: (l, CP x ()) -> (l, CP x ()) -> [(l, x)]
+chat = undefined
+
+{- 4 marks -}
 {----------------------------------------------------------------------}
