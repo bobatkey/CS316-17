@@ -936,6 +936,59 @@ evalProgram prog =
 
 
 {--------------------------------------------------------------------}
+{- APPENDIX : RUNNING GHOUL FROM THE COMMAND LINE                   -}
+{--------------------------------------------------------------------}
+
+{- The following main function makes it possible to compile this file
+   and run your GHOUL evaluator from the command-line, reading a
+   source program from a file name given as an argument. (Of course,
+   this won't work until you have managed to get runGHOUL working!)
+
+   You can compile your file as follows:
+
+         $ ghc Ex4.hs
+         [1 of 1] Compiling Main             ( Ex4.hs, Ex4.o )
+         Linking Ex4 ...
+
+   This will produce an executable file named 'Ex4' in the current
+   directory. To run it on a file plus.ghoul containing a GHOUL
+   program, execute it like this:
+
+         $ Ex4 plus.ghoul
+         S(S(S(S(Z))))
+
+   We will talk more about compiling Haskell programs to executables
+   in Lecture 18.
+
+   You can also run the main function with a "faked" commandline
+   argument from ghci directly, without compiling, by running
+
+         λ> withArgs ["plus.ghoul"] main
+   -}
+
+main :: IO ()
+main = do
+  args <- getArgs
+  progName <- getProgName
+  when (null args || (not . null . tail) args) $
+    exitFail ("not exactly one input file.\n" ++
+              "Usage: " ++ progName ++ " <input-file>")
+  -- if we are still here, args has exactly one element
+  input <- readFile $ head args
+  case runGHOUL input of
+    Left err -> exitFail err
+    Right (Left err) -> exitFail err
+    Right (Right v) -> putStrLn (prettyVal v)
+  where exitFail :: String -> IO ()
+        exitFail msg = putStrLn ("GHOUL: " ++ msg) >> exitFailure
+
+prettyVal :: Val -> String
+prettyVal (VC con args) = con ++ (if (null args) then "" else "(")
+                              ++ concat (intersperse ", " $ map prettyVal args)
+                              ++ (if (null args) then "" else ")")
+
+
+{--------------------------------------------------------------------}
 {- APPENDIX : PARSER COMBINATORS                                    -}
 {--------------------------------------------------------------------}
 
@@ -1033,3 +1086,4 @@ sepBy sep p = (:) <$> p <*> many (sep *> p) <|> pure []
 
 many :: Parser a -> Parser [a]
 many p = (:) <$> p <*> many p <|> pure []
+
