@@ -81,11 +81,12 @@ eoi = MkParser (\input -> case input of
    complex parsers. Everything to do with parsers from this point on
    is done in terms of:
 
-     1. The Monad interface  (return, >>=)
-     2. The Applicative interface (pure, <*>)
-     3. The Alternative interface (empty, <|>)
-     4. 'char'
-     5. 'eoi'
+     1. The Functor interface (fmap)
+     2. The Monad interface  (return, >>=)
+     3. The Applicative interface (pure, <*>)
+     4. The Alternative interface (empty, <|>)
+     5. 'char'
+     6. 'eoi'
 
    And, of course, to actually use parsers we need the 'runParser'
    function.
@@ -183,6 +184,21 @@ field =  (\_ s _ -> s) <$> isChar '\"'
                        <*> many (satisfies (\x -> x /= '\"' && x /= '\n'))
                        <*> isChar '\"'
      <|> many (satisfies (\x -> x /= ':' && x /= '\n'))
+
+unescapedChar :: Parser Char
+unescapedChar =
+  satisfies (\x -> x /= '\"' && x /= '\n' && x /= '\\')
+
+escapedChar :: Parser Char
+escapedChar =
+  (\_ c -> c) <$> isChar '\\' <*> char
+
+field2 :: Parser String
+field2 =  (\_ s _ -> s) <$> isChar '\"'
+                        <*> many (unescapedChar <|> escapedChar)
+                        <*> isChar '\"'
+      <|> many (satisfies (\x -> x /= ':' && x /= '\n'))
+
 {-
 field' = MkParser myFieldParser
   where myFieldParser input =
