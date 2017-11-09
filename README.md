@@ -51,9 +51,9 @@ interspersed with commentary covering what we talked about.
 - [Lecture 14](lectures/Lec14.hs) (with notes) : Parser Combinators
 - [Lecture 15](lectures/Lec15.hs) (with preliminary notes) : More Parser Combinators
 - Lecture 16 : The State Monad, and Build-Your-Own Monads
-- Lecture 17 : Traversing Containers
+- [Lecture 17](lectures/Lec17.hs) (with preliminary notes) : Traversing Containers
 - Lecture 18 : Interaction
-- Lecture 19 : Infinite Data and Processes
+- [Lecture 19](lectures/Lec19.hs) (with preliminary notes) : Infinite Data and Processes
 - Lecture 20 : Parallelism
 - Lecture 21 : Concurrency
 - Lecture 22 : A look at Agda (CS410 propaganda)
