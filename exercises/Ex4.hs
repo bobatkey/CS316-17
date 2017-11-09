@@ -1,5 +1,7 @@
-module Ex4 where
+module Main where
 
+import System.Environment
+import System.Exit
 import Control.Applicative hiding (many)
 import Control.Monad
 import Data.Char
@@ -954,7 +956,7 @@ evalProgram prog =
    directory. To run it on a file plus.ghoul containing a GHOUL
    program, execute it like this:
 
-         $ Ex4 plus.ghoul
+         $ ./Ex4 plus.ghoul
          S(S(S(S(Z))))
 
    We will talk more about compiling Haskell programs to executables
