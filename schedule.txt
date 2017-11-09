@@ -27,11 +27,11 @@ Wk Day Date     Event      Prac  Purpose                                       W
                 Lab        3
    Thu  2 Nov   Tutorial   4     T6. GHOUL unveil                              B           F
    Fri  3 Nov   Lecture          14. monadic parsing (H13)                     B           F
-8  Mon  6 Nov   Lecture          15. more monadic parsing
+8  Mon  6 Nov   Lecture          15. more monadic parsing                      B&F
                 Deadline   3     2pm
                 Lab-Test   3     HOP test
-   Thu  9 Nov   Tutorial   3     T7. HOP autopsy
-   Fri 10 Nov   Lecture          16. state and custom monads
+   Thu  9 Nov   Tutorial   3     T7. HOP autopsy                               B&F
+   Fri 10 Nov   Lecture          16. state and custom monads                   F           B
 9  Mon 13 Nov   Lecture          17. visiting and traversing containers
                 Lab        4
    Thu 16 Nov   Tutorial   4     T8. GHOUL firefight
