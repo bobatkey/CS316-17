@@ -1,5 +1,76 @@
 module Tut07 where
 
+{- TUTORIAL 07 : PARSING EXPRESSIONS -}
+
+{- Parsers of things are functions from strings to the possibility of
+   pairs of things and strings: -}
+
+newtype Parser a = MkParser (String -> Maybe (a,String))
+
+
+runParser :: Parser a -> String -> Maybe (a, String)
+runParser (MkParser p) input = p input
+
+instance Functor Parser where
+  fmap f (MkParser p) =
+    MkParser (\input -> fmap (\(a,rest) -> (f a,rest)) (p input))
+
+
+andThen :: Parser a -> Parser b -> Parser (a,b)
+andThen (MkParser p1) (MkParser p2) =
+  MkParser (\input -> case p1 input of
+                        Nothing -> Nothing
+                        Just (a, input2) ->
+                          case p2 input2 of
+                            Nothing -> Nothing
+                            Just (b, rest) ->
+                              Just ((a,b), rest))
+nothing :: Parser ()
+nothing = MkParser (\input -> Just ((), input))
+
+instance Applicative Parser where
+  -- pure :: a -> Parser a
+  pure x = const x <$> nothing
+
+  -- (<*>) :: Parser (a -> b) -> Parser a -> Parser b
+  pf <*> pa = (\(f, a) -> f a) <$> (pf `andThen` pa)
+
+orElse :: Parser a -> Parser a -> Parser a
+orElse (MkParser p1) (MkParser p2) =
+  MkParser (\input -> case p1 input of
+                        Nothing -> p2 input
+                        Just (a,s) -> Just (a,s))
+
+failure :: Parser a
+failure = MkParser (\input -> Nothing)
+
+instance Alternative Parser where
+  empty = failure
+  (<|>) = orElse
+
+instance Monad Parser where
+  MkParser p >>= f =
+    MkParser (\input -> case p input of
+                          Nothing -> Nothing
+                          Just (a,rest) ->
+                            let MkParser p2 = f a in
+                              p2 rest)
+
+{- So far, we haven't yet defined anything that actually consumes any
+   input. We do this by defining the 'char' parser. This reads a
+   single character from the input, or fails if that is not possible. -}
+char :: Parser Char
+char = MkParser (\input -> case input of
+                             ""   -> Nothing
+                             c:cs -> Just (c,cs))
+
+eoi :: Parser ()
+eoi = MkParser (\input -> case input of
+                            ""  -> Just ((), "")
+                            _:_ -> Nothing)
+
+
+
 {--------------------------------------------------------------------}
 {- Part 2. Parsing Expressions                                      -}
 {--------------------------------------------------------------------}
@@ -21,95 +92,11 @@ data Expr
   | Add    Expr Expr
   deriving Show
 
--- FIXME: use a proper number parser
 
-{- A grammar for expressions:
 
-    E ::= E '+' E
-        | n
+{- A grammar:
 
-   Unfortunately, this grammar is ambiguous. The string:
-
-      1+1+1
-
-   Can be parsed in two different ways.
-
-      (1+1)+1
-      1+(1+1)
-
-   Another problem is that the grammar uses left recursion. The second
-   case for 'E' immediately mentions 'E' without moving through the
-   input. This means that if we try to turn this grammar into a parser
-   directly, we will fail: -}
-
-expr_v1 :: Parser Expr
-expr_v1 =  (\e1 _ e2 -> Add e1 e2) <$> expr_v1 <*> isChar '+' <*> expr_v1
-       <|> Number                  <$> (const 1 <$> some (satisfies isDigit))
-{-
-     λ> runParser expr_v1 "1+1"
-     *** Exception: stack overflow
+     E ::= E '+' E
+         | n
 -}
 
-{- One way to fix this is to just demand that there are always
-   parentheses around every expression that isn't a number, using the
-   'parens' function. This means we are parsing the following grammar:
-
-     E ::= n
-         | '(' E '+' E ')'
--}
-
--- things surrounded by parentheses
-parens :: Parser a -> Parser a
-parens p = (\_ a _ -> a) <$> isChar '(' <*> p <*> isChar ')'
-
-
-expr_v2 :: Parser Expr
-expr_v2 = Number <$> (const 1 <$> some (satisfies isDigit))
-       <|> parens ((\e1 _ e2 -> Add e1 e2) <$> expr_v2 <*> isChar '+' <*> expr_v2)
-
-{-
-     λ> runParser expr_v2 "(1+1)"
-     [Add (Number 1) (Number 1)]
-     λ> runParser expr_v2 "(1+(1+1))"
-     [Add (Number 1) (Add (Number 1) (Number 1))]
-     λ> runParser expr_v2 "(1+1+1)"
-     []
--}
-
-{- Putting in all those parentheses is annoying, so we can refactor the
-   grammar into 'E'xpressions and 'B'ase expressions. This resolves
-   the ambiguity, and the left recursion problems:
-
-     E ::= B
-         | B '+' E
-
-     B ::= n
-         | '(' E ')'
--}
-
-expr_v3 :: Parser Expr
-expr_v3 = base_v3
-       <|> Add <$> base_v3 <* isChar '+' <*> expr_v3
-
-{- In this definition, I have used the function '<*' to throw away the
-   results of parsing the '+' symbol. The '<*' function has the
-   following type, compared to the more normal '<*>' function:
-
-       (<*)  :: Parser a -> Parser b -> Parser a
-       (<*>) :: Parser (a -> b) -> Parser a -> Parser b
--}
-
-base_v3 = Number <$> (const 1 <$> some (satisfies isDigit))
-       <|> parens (expr_v3)
-
-{- Example uses:
-
-       λ> runParser expr_v3 "(1+1+1)"
-       [Add (Number 1) (Add (Number 1) (Number 1))]
-       λ> runParser expr_v3 "1+1+1"
-       [Add (Number 1) (Add (Number 1) (Number 1))]
-       λ> runParser expr_v3 "(1+1)+1"
-       [Add (Add (Number 1) (Number 1)) (Number 1)]
-       λ> runParser expr_v3 "(1+1)+1"
-       [Add (Add (Number 1) (Number 1)) (Number 1)]
--}
