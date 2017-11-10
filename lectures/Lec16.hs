@@ -113,13 +113,20 @@ data Expr
  -}
 
 expr_v1 :: Parser Expr
-expr_v1 =  undefined
+expr_v1 =  (\ e1 () e2 -> Add e1 e2) <$> expr_v1 <*> isChar '+' <*> expr_v1
+       <|> Number <$> number
 
 
 number :: Parser Int
-number = undefined
+number = foldl (\acc d -> d + 10*acc) 0 <$> some digit
 
-
+digit :: Parser Int
+digit = do
+  c <- char
+  if isNumber c then
+    return (digitToInt c)
+  else
+    empty
 
 {- One way to fix this is to just demand that there are always
    parentheses around every expression that isn't a number.
@@ -132,16 +139,16 @@ number = undefined
 
 -- things surrounded by parentheses
 parens :: Parser a -> Parser a
-parens p = undefined
+parens p = (\ () a () -> a) <$> isChar '(' <*> p <*> isChar ')'
 
 
 
 
 expr_v2 :: Parser Expr
-expr_v2 =  undefined
-
-
-
+expr_v2 =  parens ((\ e1 () e2 -> Add e1 e2) <$> expr_v2
+                                             <*> isChar '+'
+                                             <*> expr_v2)
+       <|> Number <$> number
 
 
 
@@ -176,36 +183,42 @@ instance Show a => Show (Printing a) where
 
 instance Functor Printing where
   -- fmap :: (a -> b) -> Printing a -> Printing b
-  fmap f pa = undefined
+  fmap f (MkPr msg a) = MkPr msg (f a)
 
 instance Applicative Printing where
   -- pure :: a -> Printing a
-  pure a = undefined
+  pure a = MkPr "" a
 
   -- (<*>) :: Printing (a -> b) -> Printing a -> Printing b
-  (MkPr str1 f) <*> (MkPr str2 a) = undefined
+  (MkPr str1 f) <*> (MkPr str2 a) = MkPr (str1 ++ str2) (f a)
 
 instance Monad Printing where
   -- (>>=) :: Printing a -> (a -> Printing b) -> Printing b
-  (MkPr str1 a) >>= f = undefined
+  (MkPr str1 a) >>= f = let (MkPr str2 b) = f a in (MkPr (str1 ++ str2) b)
 
 
 -- The printing monad supports this operation:
 print :: String -> Printing ()
-print s = undefined
+print s = MkPr s ()
 
 
 trace :: Show a => String -> a -> Printing ()
 trace msg v = print $ msg ++ ": " ++ (show v) ++ "\n"
 
 
-
-
-
+fib' n = if n == 0 || n == 1 then 1
+         else fib' (n-1) + fib' (n-2)
 
 fib :: Integer -> Printing Integer
-fib n = undefined
-
+fib n = do
+  trace "fib" n
+  if n == 0 || n == 1 then pure 1
+    else (+) <$> fib (n-1) <*> fib (n-2)
+{-    do
+      m <- fib (n - 1)
+      n <- fib (n - 2)
+      return (m + n)
+-}
 
 
 
@@ -265,17 +278,26 @@ runState (MkState h) s = (h s)
 -- How do we chain stateful computations together? State s is a monad!
 
 instance Functor (State s) where
+  -- fmap :: (a -> b) -> State s a -> State s b
   fmap f (MkState h) =
-    undefined
+    MkState (\s -> let (a,s') = h s in (f a, s'))
 
 instance Applicative (State s) where
-  pure x = undefined
+  -- pure :: a -> State s a
+  pure x = MkState (\s -> (x,s))
 
+  -- <*> :: State s (a -> b) -> State s a -> State s b
   (MkState hg) <*> (MkState ha) =
-    undefined
+    MkState (\s -> let (g, s1) = hg s in
+                   let (a, s2) = ha s1 in
+                   (g a, s2))
 
 instance Monad (State s) where
-  (MkState ha) >>= f = undefined
+  -- (>>=) :: State s a -> (a -> State s b) -> State s b
+  (MkState ha) >>= f =
+    MkState (\s -> let (a, s1) = ha s in
+                   let MkState h = f a in
+                     h s1)
 
 
 
@@ -288,7 +310,13 @@ data Tree a = Leaf | Node (Tree a) a (Tree a)
 -- counter.
 
 labelTree :: Tree a -> State Int (Tree Int)
-labelTree Leaf = undefined
+labelTree Leaf = return Leaf
+labelTree (Node l _ r) = do
+  l' <- labelTree l
+  n <- get
+  put (n+1)
+  r' <- labelTree r
+  return (Node l' n r')
 
 
 
