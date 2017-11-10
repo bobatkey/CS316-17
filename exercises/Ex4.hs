@@ -422,7 +422,7 @@ expr = undefined
    'Parser' for equations. To be programmer friendly, you should allow
    spaces around the equals sign.
 
-   Use the plusProg program from above for test cases. -}
+   Use the 'plusProgram' program from above for test cases. -}
 
 equation :: Parser Equation
 equation = undefined
