@@ -857,7 +857,7 @@ afterMatch f (MkMatcher m) =
                       Nothing       -> abortWithMessage "Match failure"
                       Just (a, env) -> runEval (f a) prg env)
 
-{- 4.17 Evaluating programs
+{- 4.18 Evaluating programs
 
    The final step in implementing a GHOUL interpreter is in the
    implementation of 'eval' for expressions. Implement this function,
