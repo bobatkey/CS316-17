@@ -1,5 +1,8 @@
 module Lec17 where
 
+-- import Prelude hiding (Foldable(..))
+import Data.Foldable
+
 {-     LECTURE 17 : VISITING AND TRAVERSING CONTAINERS
 
    A problem:
@@ -33,30 +36,46 @@ instance Functor Tree where
 convertAll :: Functor c => (a -> Maybe b) -> c a -> c (Maybe b)
 convertAll checker box = fmap checker box
 
+
+
+
 {- Visiting pattern 2 : Foldable
 
    A foldable applies a function to every element in the container,
    and combines all the results. -}
-instance Foldable Tree where
-  -- foldMap :: Monoid m => (a -> m) -> Tree a -> m
-  foldMap f Leaf = mempty
-  foldMap f (Node l x r) =
-    foldMap f l `mappend` f x `mappend` foldMap f r
 
-{-  newtype All = All { getAll :: Bool }
-
-    instance Monoid All where
-      mempty = All True
-      All p `mappend` All q = All (p && q)
+{-
+class Foldable f where
+     fold :: Monoid m => f m -> m
 -}
 
-checkAll :: Foldable c => (a -> Maybe b) -> c a -> Bool
-checkAll checker box = getAll (foldMap checker2 box) where
-  -- checker2 :: a -> All
-  checker2 x = case checker x of
-                 Nothing -> All False
-                 Just b  -> All True
-  
+
+instance Foldable Tree where
+  -- fold :: Monoid m => Tree m -> m
+  fold Leaf =
+    mempty
+
+  fold (Node l x r) =
+    fold l `mappend` x `mappend` fold r   
+
+  foldMap f = fold . fmap f
+
+checkAll :: (Functor c, Foldable c) => (a -> Maybe b) -> c a -> Bool
+checkAll checker box = getAll (fold (fmap (checker2 . checker) box))
+  where
+    -- checker2 :: Maybe b -> All
+    checker2 Nothing = MkAll False
+    checker2 (Just _) = MkAll True
+
+newtype All = MkAll Bool
+
+getAll :: All -> Bool
+getAll (MkAll b) = b
+
+instance Monoid All where
+  mempty = MkAll True
+  x `mappend` y = MkAll $ (getAll x) && (getAll y)
+
 {- Can we solve our problem now? -}
 
 checkThenConvert :: (Functor c, Foldable c) =>
@@ -65,14 +84,24 @@ checkThenConvert :: (Functor c, Foldable c) =>
                     Maybe (c b)
 checkThenConvert checker box =
   if checkAll checker box then
-    Just $ fmap (fromJust . checker) box
+    Just (fmap (fromJust . checker) box)
   else
     Nothing
 
 fromJust :: Maybe b -> b
-fromJust (Just x) = x
+fromJust (Just b) = b
+fromJust Nothing = error "Sorry, you can get refunds from /dev/null"
 
 {- Not ideal! -}
+
+checkThenConvert2 :: (a -> Maybe b) ->
+                     Tree a ->
+                     Maybe (Tree b)
+checkThenConvert2 checker Leaf = pure Leaf
+checkThenConvert2 checker (Node l x r) =
+  Node <$> checkThenConvert2 checker l
+       <*> checker x
+       <*> checkThenConvert2 checker r
 
 {- Visiting pattern 3 : Traversable
 
@@ -80,26 +109,31 @@ fromJust (Just x) = x
    and (i) creates a new container with the same shape and new
    elements; and (ii) combines results on the side. -}
 
--- FIXME: introduce this more slowly!
--- write traverse for a Tree first
-
 -- pure :: a -> f a
 -- (<*>) :: f (a -> b) -> f a -> f b
 
+{-
+class Traversable c where
+  traverse :: (Applicative f) =>
+              (a -> f b) -> c a -> f (c b)
+-}
+
 instance Traversable Tree where
-  -- traverse :: Applicative f => (a -> f b) -> Tree a -> f (Tree b)
-  traverse f Leaf         = pure Leaf
-  traverse f (Node l x r) = Node <$> traverse f l
-                                 <*> f x
-                                 <*> traverse f r
+  traverse f Leaf = pure Leaf
+  traverse f (Node l x r) =
+    Node <$> traverse f l
+         <*> f x
+         <*> traverse f r
+  
+{-
+instance Traversable [] where
+  traverse f [] = pure []
+  traverse f (x:xs) = (:) <$> f x <*> traverse f xs
+-}
 
-convertAndCheckAll :: Traversable c =>
-                      (a -> Maybe b)
-                   -> c a
-                   -> Maybe (c b)
-convertAndCheckAll checker box = traverse checker box
 
 
+-- foldMap = fold . fmap
 
 {-
    fmap     ::                  (a -> b)   -> c a  -> c b
@@ -107,13 +141,24 @@ convertAndCheckAll checker box = traverse checker box
    traverse :: Applicative f => (a -> f b) -> c a  -> f (c b)
 -}
 
--- Derived functions
+-- fmap id     ::                  c a     -> c a
+-- foldMap id  :: Monoid m =>      c m     -> m
+-- traverse id :: Applicative f => c (f a) -> f (c a)
 
-mapM :: Monad m => (a -> m b) -> [a] -> m [b]
-mapM = undefined
+{-
+sequenceA :: Applicative f => [f a] -> f [a]
+sequenceA = traverse id
 
-mapA :: Applicative f => (a -> f b) -> [a] -> f [b]
-mapA = undefined
+sequence :: Monad m => [m a] -> m [a]
+sequence = traverse id
+-}
 
-filterM :: Monad m => (a -> m Bool) -> [a] -> m [a]
-filterM = undefined
+-- mapM_ :: (a -> m b) -> [a] -> m ()
+
+-- forM :: [a] -> (a -> m b) -> m ()
+
+-- forM [1..10] (\i -> print i)
+
+-- forM myList (\x -> ...)
+
+
