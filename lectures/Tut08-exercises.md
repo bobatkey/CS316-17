@@ -45,10 +45,13 @@ put :: s -> State s ()
 put s = MkState (\ _ -> ((), s))
 ```
 
-We can run a stateful computation with `runState`:
+We can run stateful computations with `runState` and `evalState`:
 ```haskell
 runState :: State s a -> s -> (a,s)
 runState (MkState h) s = (h s)
+
+evalState :: State s a -> s -> a
+evalState h = fst . runState h
 ```
 
 ## State helper functions.
