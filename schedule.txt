@@ -11,12 +11,12 @@ Wk Day Date     Event      Prac  Purpose                                       W
    Thu  5 Oct   Tutorial   2     T2. FOP firefight                             F
    Fri  6 Oct   Lecture          6. higher-order functions (H7)                B&F
 4  Mon  9 Oct   Lecture          7. declaring types and classes (H8)           B           F
-                Lab        2
+                Lab        2                                                   Ben
    Thu 12 Oct   Tutorial   3     T3. HOP unveil                                B           F
    Fri 13 Oct   Lecture          8. QuickCheck                                 B           F
 5  Mon 16 Oct   Lecture          9. recursion schemes                          B&F
                 Deadline   2     2pm
-                Lab-Test   2
+                Lab-Test   2                                                   B&F
    Thu 19 Oct   Tutorial   2     T4. FOP autopsy                               F
    Fri 20 Oct   Lecture          10. functors and containers                   B&F
 6  Mon 23 Oct   Lecture          11. building pure evaluators                  B           F
@@ -24,20 +24,20 @@ Wk Day Date     Event      Prac  Purpose                                       W
    Thu 26 Oct   Tutorial   3     T5. HOP firefight                             F
    Fri 27 Oct   Lecture          12. applicatives and monads (H12)             B&F
 7  Mon 30 Oct   Lecture          13. monads we like                            B&F
-                Lab        3
+                Lab        3                                                   Ben
    Thu  2 Nov   Tutorial   4     T6. GHOUL unveil                              B           F
    Fri  3 Nov   Lecture          14. monadic parsing (H13)                     B           F
 8  Mon  6 Nov   Lecture          15. more monadic parsing                      B&F
                 Deadline   3     2pm
-                Lab-Test   3     HOP test
+                Lab-Test   3     HOP test                                      B&F
    Thu  9 Nov   Tutorial   3     T7. HOP autopsy                               B&F
    Fri 10 Nov   Lecture          16. state and custom monads                   F&B
 9  Mon 13 Nov   Lecture          17. visiting and traversing containers        B&F
-                Lab        4
-   Thu 16 Nov   Tutorial   4     T8. GHOUL firefight
-   Fri 17 Nov   Lecture          18. programming interaction
+                Lab        4                                                   Ben
+   Thu 16 Nov   Tutorial   4     T8. GHOUL firefight                           F
+   Fri 17 Nov   Lecture          18. programming interaction                   B           F
 10 Mon 20 Nov   Lecture          19. infinite data and processes (H15)         B           F
-                Lab        4
+                Lab        4                                                   Ben
    Thu 23 Nov   Tutorial   4     T9. GHOUL firefight                           B           F
    Fri 24 Nov   Lecture          20. parallelism                               B           F
 11 Mon 27 Nov   Lecture          21. concurrency                               B           F
