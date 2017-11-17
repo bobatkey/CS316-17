@@ -1,0 +1,17 @@
+1: module Main where
+2: 
+3: import System.Environment
+4: 
+5: -- add line numbers to the beginning of each line
+6: 
+7: main = do
+8:   xs <- getArgs
+9:   case xs of
+10:     [inFile, outFile] ->
+11:       do file <- lines <$> readFile inFile
+12:          let out = zipWith (\ n xs -> (show n) ++ ": " ++ xs) [1..] file
+13:          writeFile outFile (unlines out)
+14:     _ -> do putStrLn "Wrong number of arguments"
+15:             prog <- getProgName
+16:             putStrLn $ "Usage: " ++ prog ++ " inFile outFile"
+17: 
