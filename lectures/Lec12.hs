@@ -189,7 +189,7 @@ evaluate3 (Print3 s e) = (s ++ s1, n)
   where (s1, n) = evaluate3 e
 
 {- As above, the addition case has plumbing that we'd have to repeat if
-   we wanted to add new arithmetic operators to the langauge. For
+   we wanted to add new arithmetic operators to the language. For
    example, to add multiplication, we'd write:
 
        evaluate3 (Mul3 e1 e2) = (s1 ++ s2, n1 * n2)
