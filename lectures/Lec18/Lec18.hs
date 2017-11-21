@@ -1,8 +1,10 @@
-module Lec17 where
+module Lec18 where
 
 -- We will define our own versions of getLine, putStr, and putStrLn
 -- below, so we hide the ones from the base library
 import Prelude hiding (getLine, putStr, putStrLn)
+import qualified Prelude
+import Control.Monad
 
 {- 1. Compiling and running programs                       -}
 
@@ -106,65 +108,65 @@ message = "Hello world!"
 
 greeter :: IO ()
 greeter = do
-  putStrLn "Who do you want to greet?"
-  name <- getLine
-  putStrLn $ "Hello " ++ name ++ "!"
+  Prelude.putStrLn "What's your name?"
+  name <- Prelude.getLine
+  Prelude.putStrLn ("Hello " ++ name ++ "!")
 
 -- Alternatively, we could have written
 
 greeter2 :: IO ()
-greeter2 = putStrLn "Who do you want to greet?" >>
-           getLine >>= \ name -> putStrLn $ "Hello " ++ name ++ "!"
+greeter2 =
+  Prelude.putStrLn "What's your name?" >>= \() ->
+  Prelude.getLine                      >>= \name ->
+  Prelude.putStrLn ("Hello " ++ name ++ "!")
 
 -- which is arguably less readable. If we didn't insist on the final
 -- exclamation mark, it would have looked nicer:
 
-greeter2' :: IO ()
-greeter2' = putStrLn "Who do you want to greet?" >>
-            getLine >>=  putStrLn .  ("Hello " ++)
+greeter2' :: (String -> String) -> IO ()
+greeter2' f =
+  Prelude.putStrLn "What's your name?" >>
+  Prelude.getLine >>= Prelude.putStrLn . f
 
 {- After binding a value such as name, we can use it like any other
- value to e.g. determine the control flow:
--}
+   value to e.g. determine the control flow: -}
 
 boredGreeter :: IO ()
 boredGreeter = do
-  putStrLn "Who do you want to greet?"
-  name <- getLine
+  Prelude.putStrLn "What's your name?"
+  name <- Prelude.getLine
   if name == "World" then
-    putStrLn "How predictable..."
+    Prelude.putStrLn "Get A NEW EXAMPLE!"
   else
-    putStrLn $ "Hello " ++ name ++ "!"
+    Prelude.putStrLn ("Hello " ++ name ++ "!")
 
 {- 2.5 Derived operations -}
 
 {- Not all primitive operations are needed; some can be defined in terms
    of others. Of course, this is not how it is done in the standard
-   library, but this is a good exercise for us:
--}
+   library, but this is a good exercise for us: -}
 
 getLine :: IO String
 getLine = do
-  x <- getChar
-  if x == '\n' then
-    return []
-  else
-    do xs <- getLine
-       return (x:xs)
+  c <- getChar
+  if c == '\n' then
+    return ""
+  else do
+    line <- getLine
+    return (c:line)
 
 -- Note the use of 'return' to turn pure values such as [] and (x:xs)
 -- into IO actions, like in any other monad
 
 putStr :: String -> IO ()
 putStr []     = return ()
-putStr (x:xs) = do
-  putChar x
-  putStr xs
+putStr (c:cs) = putChar c >> putStr cs
+
+putStr' :: String -> IO ()
+putStr' = mapM_ putChar
 
 putStrLn :: String -> IO ()
-putStrLn msg = do
-  putStr msg
-  putChar '\n'
+putStrLn str = putStr str >> putChar '\n'
 
 {- 2.6 Is Haskell a purely functional language? -}
 
@@ -179,7 +181,28 @@ putStrLn msg = do
    from the keyboard. We can think of the the program as a pure
    program that produces *values* of type IO String; the magic happens
    when the main function is actually executed.
--}
+
+   Conceptually (it is not really implemented like this), we can think
+   of 'IO' as an enhanced version of the 'CP' ("Communicating
+   Processes") data type from Exercise 3. Renaming the constructors in
+   'CP' gives us: -}
+
+data IO' a
+  = Return a
+  | GetChar (Char -> IO' a)
+  | PutChar Char (IO' a)
+  | Exit
+
+{- In Exercise 3, we got you to program the Monad parts for 'CP' ('sequ'
+   is really '>>='!). We could go further and add lots of extra
+   constructors to 'CP'/'IO'' for all the other things that 'IO' can
+   do (see below).
+
+   The main difference between 'CP'/'IO'' and the real 'IO' monad is
+   that we cannot pattern match on values of type 'IO a'. This allows
+   the Haskell system to more efficiently optimise and execute IO
+   actions. -}
+
 
 {- 2.7 Other useful IO functions -}
 

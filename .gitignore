@@ -5,3 +5,5 @@
 *.log
 *.synctex.gz
 *.dropbox.attr
+*.hi
+*.o

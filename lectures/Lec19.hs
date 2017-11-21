@@ -14,7 +14,7 @@ import Debug.Trace
    CREDITS: The 'inc', 'neverFinish', 'square' and 'sumList' examples
    are taken from Hutton's "Programming in Haskell", 2nd ed, Chapter
    15. The 'findSqrt' example is taken from the paper "Why Functional
-   Programming Matters" by John Hughes (link below). -}
+   Programming Matters" by John Hughes (link in the online notes). -}
 
 {- A simple function: -}
 
