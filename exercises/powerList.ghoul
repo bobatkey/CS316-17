@@ -1,0 +1,36 @@
+append(Nil,ys) = ys;
+append(Cons(x,xs),ys) = Cons(x,append(xs,ys));
+
+mapCons(x,Nil) = Nil;
+mapCons(x,Cons(ys,yss)) = Cons(Cons(x,ys),mapCons(x,yss));
+
+powerList(Nil) = Cons(Nil,Nil);
+powerList(Cons(x,xs)) = append(powerList(xs),mapCons(x,powerList(xs)));
+
+length(Nil) = Z;
+length(Cons(x,xs)) = S(length(xs));
+
+main() = printNat(length(powerList(Cons(X,Cons(Y,Cons(Z,Cons(W,Nil)))))));
+
+printNat(Z) = Zero;
+printNat(S(Z)) = One;
+printNat(S(S(Z))) = Two;
+printNat(S(S(S(Z)))) = Three;
+printNat(S(S(S(S(Z))))) = Four;
+printNat(S(S(S(S(S(Z)))))) = Five;
+printNat(S(S(S(S(S(S(Z))))))) = Six;
+printNat(S(S(S(S(S(S(S(Z)))))))) = Seven;
+printNat(S(S(S(S(S(S(S(S(Z))))))))) = Eight;
+printNat(S(S(S(S(S(S(S(S(S(Z)))))))))) = Nine;
+printNat(S(S(S(S(S(S(S(S(S(S(Z))))))))))) = Ten;
+printNat(S(S(S(S(S(S(S(S(S(S(S(Z)))))))))))) = Eleven;
+printNat(S(S(S(S(S(S(S(S(S(S(S(S(Z))))))))))))) = Twelve;
+printNat(S(S(S(S(S(S(S(S(S(S(S(S(S(Z)))))))))))))) = Thirteen;
+printNat(S(S(S(S(S(S(S(S(S(S(S(S(S(S(Z))))))))))))))) = Fourteen;
+printNat(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(Z)))))))))))))))) = Fifteen;
+printNat(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(Z))))))))))))))))) = Sixteen;
+printNat(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(Z)))))))))))))))))) = Seventeen;
+printNat(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(Z))))))))))))))))))) = Eighteen;
+printNat(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(Z)))))))))))))))))))) = Nineteen;
+printNat(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(S(Z))))))))))))))))))))) = Twenty;
+printNat(x) = Many(x);

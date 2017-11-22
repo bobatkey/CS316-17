@@ -1,0 +1,32 @@
+append(Nil,ys) = ys;
+append(Cons(x,xs),ys) = Cons(x,append(xs,ys));
+
+insert(x,Leaf) = Node(Leaf,x,Leaf);
+insert(x,Node(l,y,r)) = cond(leq(x,y),Node(insert(x,l),y,r),Node(l,y,insert(x,r)));
+
+makeTree(Nil) = Leaf;
+makeTree(Cons(x,xs)) = insert(x,makeTree(xs));
+
+glueIn(xs,y,zs) = append(xs,Cons(y,zs));
+
+flatten(Leaf) = Nil;
+flatten(Node(lt,x,rt)) = glueIn(flatten(lt),x,flatten(rt));
+
+sort(xs) = flatten(makeTree(xs));
+
+cond(True,t,f) = t;
+cond(False,t,f) = f;
+
+leq(Z,m) = True;
+leq(S(n),Z) = False;
+leq(S(n),S(m)) = leq(n,m);
+
+one() = S(Z);
+two() = S(one());
+three() = S(two());
+four() = S(three());
+five() = S(four());
+six() = S(five());
+seven() = S(six());
+
+main() = sort(Cons(seven(),Cons(one(),Cons(six(),Cons(two(),Cons(five(),Cons(three(),Cons(four(),Nil))))))));
