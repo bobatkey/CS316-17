@@ -158,6 +158,13 @@ on the command line. Enjoy!
 
 ## Helpful Links
 
+### Videos
+
+- [What is a Monad? -
+  Computerphile](https://www.youtube.com/watch?v=t1e8gqXLbsU). Graham
+  Hutton (author of the programming in Haskell book linked below)
+  explains Monads.
+
 ### The History of Haskell
 
 - [A History of Haskell: Being Lazy With
