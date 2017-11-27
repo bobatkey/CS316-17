@@ -442,7 +442,18 @@ equations = undefined
 {- 2 MARKS -}
 
 {--------------------------------------------------------------------}
-{- 4.9 WILL APPEAR IN THE TEST                                      -}
+{- 4.9 TEST: Syntactic sugar for numeric literals
+
+   Extend your parsers for patterns and expressions to parse numeric
+   literals. That is, instead of having to write 'S(S(S(Z)))', a GHOUL
+   programmer should be able to write '3'. This should work in both
+   patterns and in expressions.
+
+   We have given you the 'number' parser at the bottom of this file to
+   parse numbers. You should extend your 'pat' and 'expr' parsers to
+   use this parser and turn the integers it returns into 'Pat's or
+   'Exp's as appropriate. -}
+
 {- 5 MARKS -}
 {--------------------------------------------------------------------}
 
@@ -548,7 +559,18 @@ arityCheck prog =
 {- 4 MARKS -}
 
 {----------------------------------------------------------------------}
-{- 4.13 WILL APPEAR IN THE TEST                                       -}
+{- 4.13 TEST: Function Checking
+
+   Write a function that checks that all the function names used on
+   the right-hand side of every equation have at least one equation
+   defined for them in the program. -}
+
+functionCheck :: Program -> Either ErrorMessage ()
+functionCheck prog =
+  -- fill this in
+  return ()
+
+
 {- 3 MARKS -}
 {----------------------------------------------------------------------}
 
@@ -738,12 +760,40 @@ findMatchingEquation = undefined
 {- 4 MARKS -}
 
 {----------------------------------------------------------------------}
-{- 4.16 WILL APPEAR IN THE TEST                                       -}
+{- 4.16 TEST: Repeated variables in patterns
+
+   The basic version of GHOUL does not allow definitions like the
+   following, where we repeat a variable name in the patterns to
+   indicate that both arguments should be equal.
+
+      isEqual(x,x) = True;
+      isEqual(x,y) = False;
+
+   This restriction is enforced by the 'bindVar' function that fails
+   if a variable is matched more than once. Write a new version of
+   bindVar that allows repeated binding of a variable, as long as all
+   values matched are equal. -}
+
+bindVarAllowRepeats :: String -> Val -> Matcher ()
+bindVarAllowRepeats x v =
+  undefined -- fill this in
+
 {- 2 MARKS -}
 {----------------------------------------------------------------------}
 
 {----------------------------------------------------------------------}
-{- 4.17 WILL APPEAR IN THE TEST                                       -}
+{- 4.17 TEST: Catch-all patterns
+
+   GHOUL does not allow catch-all patterns that do not bind a variable
+   like Haskell's '_'. Adjust the Pat datatype, your pattern parser
+   'pat', and the 'matchPat' function to make the following kind of
+   definition work:
+
+       const1(_) = S(Z);
+
+   Write a summary of what you changed here so we know.
+-}
+
 {- 3 MARKS -}
 {----------------------------------------------------------------------}
 
@@ -931,7 +981,61 @@ evalProgram prog =
 
 
 {----------------------------------------------------------------------}
-{- 4.20 WILL APPEAR IN THE TEST                                       -}
+{- 4.20 TEST : Partial Application
+
+   GHOUL as described above is not a Higher-order language, despite
+   the name. There is no way to pass functions around in
+   variables. One way to extend GHOUL to be higher-order is to allow
+   partial application of functions -- whenever too few arguments are
+   given to a function, then instead of failing, we return a special
+   value that represents a function application with too few
+   arguments. Such a value can then be passed around and applied to
+   the rest of its arguments later on.
+
+   To implement this feature, you will need to:
+
+       - Extend the datatype of values 'Val' to include partially
+         applied functions; i.e. function names plus lists of values.
+
+       - Extend 'findMatchingEquation' to allow partial application:
+
+          1. If it finds an equation with the right name, but there
+             are more parameters than supplied values, then return the
+             special value that represents this situation.
+
+          2. Otherwise, it should operate as before.
+
+         You will have to change the type of 'findMatchingEquation' to
+         return 'Matcher (Either Exp Val)'.
+
+       - Rewrite the 'EA' case of 'eval' to first look 'f' up in the
+         environment to find out whether it is a variable with a
+         partially applied function in it or not. If 'f' is not in the
+         environment then the function application proceeds as
+         before. Otherwise, if 'f' is associated with a partially
+         applied function, then append the new arguments to the old
+         ones and do the function application with the new list of
+         arguments.
+
+   If you have implemented 'scopeCheck' and/or 'functionCheck' above,
+   then you will also need to extend the check that all functions that
+   are used have been defined to allow functions that are named in
+   patterns.
+
+   Here is an example program that ought to work after your
+   changes. Note that in the definition of plusTwo, plus is only
+   applied to one argument, not the two it is expecting. This function
+   is also defined in 'partial.ghoul'. -}
+
+partialProg :: String
+partialProg =
+  " plus(Z,y) = y;\
+  \ plus(S(x),y) = S(plus(x,y));\
+  \ plusTwo() = plus(S(S(Z)));\
+  \ apply(f,a) = f(a);\
+  \ main() = apply(plusTwo(),S(S(Z)));"
+
+
 {- 10 MARKS -}
 {----------------------------------------------------------------------}
 
