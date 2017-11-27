@@ -7,3 +7,13 @@
 *.dropbox.attr
 *.hi
 *.o
+*.eventlog
+/lectures/Lec20/Lec20
+/lectures/Lec20/sudoku1
+/lectures/Lec20/sudoku2
+/lectures/Lec20/sudoku3
+/lectures/Lec20/sudoku4
+/lectures/Lec20/sudoku5
+/lectures/Lec18/Main
+/lectures/Lec18/NumberLines
+/lectures/Lec18/Tree
