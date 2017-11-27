@@ -54,8 +54,8 @@ interspersed with commentary covering what we talked about.
 - [Lecture 17](lectures/Lec17.hs) (with preliminary notes) : Traversing Containers
 - [Lecture 18](lectures/Lec18/Lec18.hs) (with notes) : Interaction
 - [Lecture 19](lectures/Lec19.hs) (with notes) : Infinite Data and Processes
-- Lecture 20 : Parallelism
-- Lecture 21 : Concurrency
+- [Lecture 20](lectures/Lec20.hs) (notes in progress) : Parallelism
+- [Lecture 21](lectures/Lec21.hs) (notes in progress) : Concurrency
 - Lecture 22 : A look at Agda (CS410 propaganda)
 
 ### Tutorials
