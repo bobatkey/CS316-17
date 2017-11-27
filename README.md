@@ -75,6 +75,7 @@ assessed exercises.
 - Tutorial 6: Unveiling of [Exercise 4 (GHOUL)](exercises/Ex4.hs). See also [some notes on Ex3](lectures/Tut06.md).
 - Tutorial 7: Retrospective on Exercise 3 (HOP), and [more on parsing expressions](lectures/Tut07.hs).
 - Tutorial 8: Questions about Exercise 4 (GHOUL), and working through some [unassessed homework questions](lectures/Tut08-exercises.md).
+- Tutorial 9: Questions about Exercise 4 (GHOUL), and some more [information examples of evaluators with different kinds of effects](lectures/Tut09.hs).
 
 ### One minute papers
 
