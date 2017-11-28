@@ -42,6 +42,6 @@ Wk Day Date     Event      Prac  Purpose                                       W
    Fri 24 Nov   Lecture          20. parallelism                               B           F
 11 Mon 27 Nov   Lecture          21. concurrency                               B           F
                 Deadline   4     2pm
-                Lab-Test   4     GHOUL test                                    B           F
+                Lab-Test   4     GHOUL test                                    B&Ben       F
    Thu 30 Nov   Tutorial   4     T10. GHOUL autopsy
    Fri  1 Dec   Lecture          22. a look at Agda (CS410 propaganda)         C
