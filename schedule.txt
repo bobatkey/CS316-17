@@ -5,7 +5,7 @@ Wk Day Date     Event      Prac  Purpose                                       W
    Fri 22 Sep   Lecture          3. defining functions (H4)                    B&F         F&J
 2  Thu 28 Sep   Deadline   1     4pm
    Thu 28 Sep   Tutorial   2     T1. FOP unveil                                B
-   Fri 29 Sep   Lecture          4. list comprehensions (H5)                   F&B
+   Fri 29 Sep   Lecture          4. list comprehensions (H5)                   B&F
 3  Mon  2 Oct   Lecture          5. recursive functions (H6)                   B&F
                 Lab        2                                                   Ben&B&F
    Thu  5 Oct   Tutorial   2     T2. FOP firefight                             F
@@ -31,7 +31,7 @@ Wk Day Date     Event      Prac  Purpose                                       W
                 Deadline   3     2pm
                 Lab-Test   3     HOP test                                      B&F
    Thu  9 Nov   Tutorial   3     T7. HOP autopsy                               B&F
-   Fri 10 Nov   Lecture          16. state and custom monads                   F&B
+   Fri 10 Nov   Lecture          16. state and custom monads                   B&F
 9  Mon 13 Nov   Lecture          17. visiting and traversing containers        B&F
                 Lab        4                                                   Ben
    Thu 16 Nov   Tutorial   4     T8. GHOUL firefight                           F
@@ -43,5 +43,5 @@ Wk Day Date     Event      Prac  Purpose                                       W
 11 Mon 27 Nov   Lecture          21. concurrency                               B           F
                 Deadline   4     2pm
                 Lab-Test   4     GHOUL test                                    B&Ben       F
-   Thu 30 Nov   Tutorial   4     T10. GHOUL autopsy
+   Thu 30 Nov   Tutorial   4     T10. GHOUL autopsy                            B&F
    Fri  1 Dec   Lecture          22. a look at Agda (CS410 propaganda)         C
